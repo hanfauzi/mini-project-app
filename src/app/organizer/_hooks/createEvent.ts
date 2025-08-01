@@ -1,9 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
-import { useAuthStore, UserStore } from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
+  useMutation
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
