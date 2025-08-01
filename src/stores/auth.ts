@@ -1,23 +1,33 @@
-import { User } from "@/types/user";
+ import { User } from "@/types/user";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export interface UserStore extends User {
-  accessToken: string;
+  token: string;
 }
 
 type Store = {
   user: UserStore | null;
   onAuthSuccess: ({ user }: { user: UserStore }) => void;
   clearAuth: () => void;
+
+  // Helper functions
+  isUser: () => boolean;
+  isOrganizer: () => boolean;
+  isLoggedIn: () => boolean;
 };
 
 export const useAuthStore = create<Store>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       onAuthSuccess: ({ user }) => set(() => ({ user })),
       clearAuth: () => set(() => ({ user: null })),
+
+      // Helpers
+      isUser: () => get().user?.role === "USER",
+      isOrganizer: () => get().user?.role === "ORGANIZER",
+      isLoggedIn: () => !!get().user,
     }),
     { name: "tickly-store" }
   )
