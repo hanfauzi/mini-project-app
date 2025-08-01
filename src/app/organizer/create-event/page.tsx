@@ -13,7 +13,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { validationCreateEventSchema } from "@/features/organizer/create-event/schema/validationCreateEventSchema";
 import { useFormik } from "formik";
-import useCreateEventHook, { CreateEventFormValues } from "./_hooks/createEvent";
+import useCreateEventHook, { CreateEventFormValues } from "../_hooks/createEvent";
 
 const categories = [
   "CULINARY",
