@@ -1,9 +1,18 @@
- import { User } from "@/types/user";
+import { User } from "@/types/user";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export interface UserStore extends User {
   token: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  referralCode?: string;
+  orgName?: string;
+  imageUrl?: string;
+  logoUrl?:string;
+  bio?:string;
+  address?:string
 }
 
 type Store = {
@@ -21,10 +30,15 @@ export const useAuthStore = create<Store>()(
   persist(
     (set, get) => ({
       user: null,
-      onAuthSuccess: ({ user }) => set(() => ({ user })),
+
+      onAuthSuccess: ({ user }) => {
+        set(() => ({
+          user: { ...user },
+        }));
+      },
+
       clearAuth: () => set(() => ({ user: null })),
 
-      // Helpers
       isUser: () => get().user?.role === "USER",
       isOrganizer: () => get().user?.role === "ORGANIZER",
       isLoggedIn: () => !!get().user,
