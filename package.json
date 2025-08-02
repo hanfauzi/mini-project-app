@@ -29,6 +29,7 @@
     "sonner": "^2.0.6",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
+    "usehooks-ts": "^3.1.1",
     "yup": "^1.6.1",
     "zustand": "^5.0.7"
   },
