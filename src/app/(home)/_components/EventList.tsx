@@ -1,14 +1,14 @@
-"use client"
+"use client";
+
 import { useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
+
+import PaginationSection from "@/components/PaginationSection";
 import { Input } from "@/components/ui/input";
 import useGetEvents from "../_hooks/useGetEvents";
-
 import EventCard from "./EventCard";
-import PaginationSection from "@/components/PaginationSection";
 
 const EventList = () => {
-    console.log("✅ EventList mounted");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
@@ -19,16 +19,14 @@ const EventList = () => {
     page,
   });
 
-  console.log(search)
-
+  
   return (
     <>
       <Input
-        type="text"
-        placeholder="Temukan event seru kesukaanmu..."
-        className="max-w-md mx-auto mb-6"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        placeholder="Cari event..."
+        className="max-w-md mx-auto mb-6"
       />
 
       <section className="grid grid-cols-3 gap-6">

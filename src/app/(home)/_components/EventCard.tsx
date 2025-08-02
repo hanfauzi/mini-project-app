@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { Event } from "@/types/event";
+import Link from "next/link";
 
 interface EventCardProps {
   event: Event;
@@ -23,6 +24,7 @@ const EventCard = ({ event }: EventCardProps) => {
         })}`;
 
   return (
+     <Link href={`/event/${event.slug}`} className="block">
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CardHeader className="p-0">
         <div className="relative w-full h-48">
@@ -43,6 +45,7 @@ const EventCard = ({ event }: EventCardProps) => {
         </p>
       </CardContent>
     </Card>
+    </Link>
   );
 };
 

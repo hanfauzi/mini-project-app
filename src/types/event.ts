@@ -1,6 +1,7 @@
 export interface Event {
   id: string;
   title: string;
+  slug: string
   startDay: string;     
   endDay: string;
   startTime: string;    
