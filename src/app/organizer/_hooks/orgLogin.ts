@@ -17,11 +17,15 @@ const useLoginHook = () => {
 
   const loginOrganizerMutation = useMutation({
     mutationFn: async (payload: Payload) => {
-      const { data } = await axiosInstance.post<UserStore>(
-        "/api/auth/login/organizer",
-        payload
-      );
-      return data;
+      const { data } = await axiosInstance.post<{
+        payload: UserStore;
+        token: string;
+      }>("/api/auth/login/organizer", payload);
+
+      return {
+        ...data.payload,
+        token: data.token,
+      };
     },
     onSuccess: (data: UserStore) => {
       onAuthSuccess({ user: data });
