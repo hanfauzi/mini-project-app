@@ -15,7 +15,7 @@ const Navbar = () => {
           <Link href="/organizer/create-event" className="hover:underline">
             Create Event
           </Link>
-          <Link href="/explore" className="hover:underline">
+          <Link href="/event" className="hover:underline">
             Explore Event
           </Link>
           <Link href="/user/register" className="hover:underline">
