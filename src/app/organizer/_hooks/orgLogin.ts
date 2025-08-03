@@ -30,7 +30,7 @@ const useLoginHook = () => {
     onSuccess: (data: UserStore) => {
       onAuthSuccess({ user: data });
       toast.success("sign in success");
-      router.replace("/");
+      router.replace("/organizer/dashboard");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error.response?.data.message ?? "Something went wrong!");
