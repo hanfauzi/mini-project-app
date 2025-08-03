@@ -15,7 +15,7 @@ const EventCard = ({ event }: EventCardProps) => {
     year: "numeric",
   });
 
-  const lowestPrice =
+ const lowestPrice =
     event.ticketCategories && event.ticketCategories.length > 0
       ? Math.min(...event.ticketCategories.map((tc) => tc.price))
       : 0;
@@ -26,6 +26,7 @@ const EventCard = ({ event }: EventCardProps) => {
       : `Rp ${lowestPrice.toLocaleString("id-ID", {
           minimumFractionDigits: 0,
         })}`;
+
 
   return (
     <Link href={`/event/${event.slug}`} className="block">

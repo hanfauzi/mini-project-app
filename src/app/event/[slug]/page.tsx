@@ -19,12 +19,20 @@ const EventDetailPage = async ({ params }: PageProps) => {
     day: "numeric",
   });
 
-  const formattedPrice =
-    event.price === 0
+
+
+  const lowestPrice =
+    event.ticketCategories && event.ticketCategories.length > 0
+      ? Math.min(...event.ticketCategories.map((tc) => tc.price))
+      : 0;
+
+  const displayPrice =
+    lowestPrice === 0
       ? "Gratis"
-      : `Rp ${event.price.toLocaleString("id-ID", {
+      : `Rp ${lowestPrice.toLocaleString("id-ID", {
           minimumFractionDigits: 0,
         })}`;
+
 
   return (
     <main className="max-w-6xl mx-auto py-10 px-4 space-y-10">
@@ -77,7 +85,7 @@ const EventDetailPage = async ({ params }: PageProps) => {
         <div className="col-span-3 space-y-4">
           <div className="p-4 border rounded shadow-sm">
             <h3 className="text-lg font-semibold">Harga Tiket</h3>
-            <p className="text-xl font-bold text-primary">{formattedPrice}</p>
+            <p className="text-xl font-bold text-primary">{displayPrice}</p>
           </div>
 
           <div className="p-4 border rounded shadow-sm">
