@@ -4,16 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { validationCreateEventSchema } from "@/features/organizer/create-event/schema/validationCreateEventSchema";
 import { useFormik } from "formik";
-import useCreateEventHook, { CreateEventFormValues } from "../_hooks/createEvent";
+import useCreateEventHook, {
+  CreateEventFormValues,
+} from "../_hooks/createEvent";
 
 const categories = [
   "CULINARY",
@@ -40,29 +42,28 @@ export default function CreateEventPage() {
 
   const formik = useFormik<CreateEventFormValues>({
     initialValues: {
-    title: "",
-    startDay: "",
-    endDay: "",
-    startTime: "",
-    endTime: "",
-    category: "",
-    location: "",
-    description: "",
-    price: "",
-    maxCapacity: "",
-    status: "UPCOMING",
-    image: null,
-  },
-  validationSchema: validationCreateEventSchema,
-  onSubmit: (values) => {
-    createEventMutation.mutate({
-      ...values,
-      price: values.price, // tetap string
-      maxCapacity: values.maxCapacity, // tetap string
-      startDay: new Date(values.startDay).toISOString(),
-      endDay: new Date(values.endDay).toISOString(),
-    });
-  },
+      title: "",
+      startDay: "",
+      endDay: "",
+      startTime: "",
+      endTime: "",
+      category: "",
+      location: "",
+      description: "",
+      maxCapacity: "",
+      status: "UPCOMING",
+      image: null,
+      ticketCategories: [{ name: "", price: 0, quota: 0 }],
+    },
+    validationSchema: validationCreateEventSchema,
+    onSubmit: (values) => {
+      createEventMutation.mutate({
+        ...values,
+        maxCapacity: values.maxCapacity, // tetap string
+        startDay: new Date(values.startDay).toISOString(),
+        endDay: new Date(values.endDay).toISOString(),
+      });
+    },
   });
 
   return (
@@ -158,13 +159,101 @@ export default function CreateEventPage() {
         </div>
 
         <div>
-          <Label htmlFor="price">Price</Label>
-          <Input
-            type="number"
-            name="price"
-            value={formik.values.price}
-            onChange={formik.handleChange}
-          />
+          <Label htmlFor="ticketCategories" className="mb-2 block">
+            Ticket Categories
+          </Label>
+          <div className="space-y-4">
+            {formik.values.ticketCategories.map((ticket, index) => (
+              <div key={index} className="grid grid-cols-3 gap-4">
+                <div>
+                  <Label
+                    htmlFor={`ticketCategories[${index}].name`}
+                    className="text-sm"
+                  >
+                    Name
+                  </Label>
+                  <Input
+                    id={`ticketCategories[${index}].name`}
+                    placeholder="e.g. VIP, Regular"
+                    value={ticket.name}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        `ticketCategories[${index}].name`,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor={`ticketCategories[${index}].price`}
+                    className="text-sm"
+                  >
+                    Price (Rp)
+                  </Label>
+                  <Input
+                    id={`ticketCategories[${index}].price`}
+                    placeholder="Harga tiket"
+                    type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    min="0"
+                    value={ticket.price}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const cleaned =
+                        value === "0" ? 0 : value.replace(/^0+/, "");
+                      formik.setFieldValue(
+                        `ticketCategories[${index}].price`,
+                        Number(cleaned)
+                      );
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor={`ticketCategories[${index}].quota`}
+                    className="text-sm"
+                  >
+                    Quota
+                  </Label>
+                  <Input
+                    id={`ticketCategories[${index}].quota`}
+                    placeholder="Jumlah tiket"
+                    type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    min="0"
+                    value={ticket.quota}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const cleaned =
+                        value === "0" ? 0 : value.replace(/^0+/, "");
+                      formik.setFieldValue(
+                        `ticketCategories[${index}].quota`,
+                        Number(cleaned)
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                formik.setFieldValue("ticketCategories", [
+                  ...formik.values.ticketCategories,
+                  { name: "", price: 0, stock: 0 },
+                ])
+              }
+            >
+              + Add Ticket Category
+            </Button>
+          </div>
         </div>
 
         <div>

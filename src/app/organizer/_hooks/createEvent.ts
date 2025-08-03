@@ -1,8 +1,6 @@
 import { axiosInstance } from "@/lib/axios";
 import { useAuthStore } from "@/stores/auth";
-import {
-  useMutation
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -16,10 +14,14 @@ export interface CreateEventPayload {
   category: string;
   location: string;
   description: string;
-  price: string;
   maxCapacity: string;
   status: string;
   image: File | null;
+  ticketCategories: {
+    name: string;
+    price: number;
+    quota: number;
+  }[];
 }
 export interface CreateEventFormValues {
   title: string;
@@ -30,21 +32,24 @@ export interface CreateEventFormValues {
   category: string;
   location: string;
   description: string;
-  price: string;
   maxCapacity: string;
   status: string;
   image: File | null;
+  ticketCategories: {
+    name: string;
+    price: number;
+    quota: number;
+  }[];
 }
 
 const useCreateEventHook = () => {
   const router = useRouter();
   const { user } = useAuthStore();
 
-  console.log(user?.token)
+  console.log(user?.token);
 
   const createEventMutation = useMutation({
     mutationFn: async (payload: CreateEventPayload) => {
-   
       const formData = new FormData();
       formData.append("title", payload.title);
       formData.append("startDay", payload.startDay);
@@ -54,10 +59,13 @@ const useCreateEventHook = () => {
       formData.append("category", payload.category);
       formData.append("location", payload.location);
       formData.append("description", payload.description);
-      formData.append("price", payload.price);
       formData.append("maxCapacity", payload.maxCapacity);
       formData.append("status", payload.status);
       formData.append("image", payload.image!);
+      formData.append(
+        "ticketCategories",
+        JSON.stringify(payload.ticketCategories)
+      );
 
       await axiosInstance.post("/api/create-event", formData, {
         headers: {
