@@ -20,6 +20,7 @@ export interface Event {
     orgName: string;
   } 
   ticketCategories: {
+    id: string;
     name: string;
     price: number;
     quota: number;
