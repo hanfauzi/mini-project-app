@@ -9,8 +9,9 @@ import useUpdateProfile, {
 } from "../_hooks/useUpdateProfile";
 import { validationUserProfileSchema } from "@/features/user/profile/schema/validationUserProfileSchema";
 import { useState } from "react";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
-export default function UserProfilePage() {
+ function UserProfilePage() {
   const { data } = useGetProfile();
   const { updateProfileMutation } = useUpdateProfile();
   const [isEditing, setIsEditing] = useState(false);
@@ -185,3 +186,5 @@ export default function UserProfilePage() {
     </>
   );
 }
+
+export default withAuthGuard(UserProfilePage, {allowedRoles:["USER"], redirectTo:"/user/login"})

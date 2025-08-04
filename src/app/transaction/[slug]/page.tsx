@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Image from "next/image";
 import { axiosInstance } from "@/lib/axios";
 import { Event } from "@/types/event";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useCreateTransaction from "../_hooks/useCreateTransaction";
 
