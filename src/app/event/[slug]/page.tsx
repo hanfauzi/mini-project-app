@@ -1,5 +1,10 @@
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 import Image from "next/image";
-import { getEventDetail } from "./_api/get-event-detail";
+import { getEventDetail } from "./_api/getEventDetail";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoAlarm } from "react-icons/io5";
@@ -19,8 +24,6 @@ const EventDetailPage = async ({ params }: PageProps) => {
     day: "numeric",
   });
 
-
-
   const lowestPrice =
     event.ticketCategories && event.ticketCategories.length > 0
       ? Math.min(...event.ticketCategories.map((tc) => tc.price))
@@ -32,7 +35,6 @@ const EventDetailPage = async ({ params }: PageProps) => {
       : `Rp ${lowestPrice.toLocaleString("id-ID", {
           minimumFractionDigits: 0,
         })}`;
-
 
   return (
     <main className="max-w-6xl mx-auto py-10 px-4 space-y-10">
@@ -73,15 +75,58 @@ const EventDetailPage = async ({ params }: PageProps) => {
 
       {/* Section Bawah */}
       <section className="grid grid-cols-10 gap-6 min-h-[60vh]">
-        {/* Kiri 70% */}
+        {/* Kiri 70%: Tabs */}
         <div className="col-span-7">
-          <h2 className="text-xl font-semibold mb-4">Deskripsi Acara</h2>
-          <p className="text-gray-700 whitespace-pre-line">
-            {event.description}
-          </p>
+          <Tabs defaultValue="description" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="description">Deskripsi</TabsTrigger>
+              <TabsTrigger value="ticket">Tiket</TabsTrigger>
+            </TabsList>
+
+            {/* Tab Deskripsi */}
+            <TabsContent value="description">
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Deskripsi Acara</h2>
+                <p className="text-gray-700 whitespace-pre-line">
+                  {event.description}
+                </p>
+              </div>
+            </TabsContent>
+
+            {/* Tab Tiket */}
+            <TabsContent value="ticket">
+              <div className="grid md:grid-cols-2 gap-4">
+                {event.ticketCategories && event.ticketCategories.length > 0 ? (
+                  event.ticketCategories.map((ticket) => (
+                    <Card key={ticket.id}>
+                      <CardHeader>
+                        <CardTitle>{ticket.name}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <p>Harga: Rp {ticket.price.toLocaleString("id-ID")}</p>
+                        <p>Kuota tersedia: {ticket.quota}</p>
+                        <Link href={`/transaction/${event.slug}`}>
+                          <Button
+                            disabled={ticket.quota === 0}
+                            className="mt-2 w-full"
+                          >
+                            {ticket.quota === 0 ? "Habis" : "Beli Tiket"}
+                          </Button>
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  ))
+                ) : (
+                  <p className="text-muted-foreground italic">
+                    Belum ada kategori tiket tersedia.
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
 
-        {/* Kanan 30% */}
+        {/* Kanan 30%: Selalu Tampil */}
         <div className="col-span-3 space-y-4">
           <div className="p-4 border rounded shadow-sm">
             <h3 className="text-lg font-semibold">Harga Tiket</h3>
