@@ -5,7 +5,7 @@ const Page = () => {
    
   return (
     <div>
-         <h1 className="text-xl font-bold">Home Page</h1>
+         <h1 className="container mx-auto text-xl font-bold">Home Page</h1>
       <EventList />
     </div>
   )

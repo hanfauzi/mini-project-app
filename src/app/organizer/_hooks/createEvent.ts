@@ -46,7 +46,6 @@ const useCreateEventHook = () => {
   const router = useRouter();
   const { user } = useAuthStore();
 
-  console.log(user?.token);
 
   const createEventMutation = useMutation({
     mutationFn: async (payload: CreateEventPayload) => {

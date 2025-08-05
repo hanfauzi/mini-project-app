@@ -77,6 +77,9 @@ export default function CreateEventPage() {
             value={formik.values.title}
             onChange={formik.handleChange}
           />
+          {formik.errors.title && formik.touched.title && (
+            <p className="text-red-500 text-sm">{formik.errors.title}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -88,6 +91,11 @@ export default function CreateEventPage() {
               value={formik.values.startDay}
               onChange={formik.handleChange}
             />
+            {formik.errors.startDay && formik.touched.startDay && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.startDay}
+              </p>
+            )}
           </div>
           <div>
             <Label htmlFor="endDay">End Date</Label>
@@ -97,6 +105,11 @@ export default function CreateEventPage() {
               value={formik.values.endDay}
               onChange={formik.handleChange}
             />
+            {formik.errors.endDay && formik.touched.endDay && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.endDay}
+              </p>
+            )}
           </div>
         </div>
 
@@ -109,6 +122,11 @@ export default function CreateEventPage() {
               value={formik.values.startTime}
               onChange={formik.handleChange}
             />
+            {formik.errors.startTime && formik.touched.startTime && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.startTime}
+              </p>
+            )}
           </div>
           <div>
             <Label htmlFor="endTime">End Time</Label>
@@ -118,6 +136,11 @@ export default function CreateEventPage() {
               value={formik.values.endTime}
               onChange={formik.handleChange}
             />
+            {formik.errors.endTime && formik.touched.endTime && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.endTime}
+              </p>
+            )}
           </div>
         </div>
 
@@ -138,6 +161,11 @@ export default function CreateEventPage() {
               ))}
             </SelectContent>
           </Select>
+          {formik.errors.category && formik.touched.category && (
+            <p className="text-red-500 text-sm mt-1">
+              {formik.errors.category}
+            </p>
+          )}
         </div>
 
         <div>
@@ -147,6 +175,11 @@ export default function CreateEventPage() {
             value={formik.values.location}
             onChange={formik.handleChange}
           />
+          {formik.errors.location && formik.touched.location && (
+            <p className="text-red-500 text-sm mt-1">
+              {formik.errors.location}
+            </p>
+          )}
         </div>
 
         <div>
@@ -156,12 +189,23 @@ export default function CreateEventPage() {
             value={formik.values.description}
             onChange={formik.handleChange}
           />
+          {formik.errors.description && formik.touched.description && (
+            <p className="text-red-500 text-sm mt-1">
+              {formik.errors.description}
+            </p>
+          )}
         </div>
 
         <div>
           <Label htmlFor="ticketCategories" className="mb-2 block">
             Ticket Categories
           </Label>
+          {formik.errors.ticketCategories &&
+            typeof formik.errors.ticketCategories === "string" && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.ticketCategories}
+              </p>
+            )}
           <div className="space-y-4">
             {formik.values.ticketCategories.map((ticket, index) => (
               <div key={index} className="grid grid-cols-3 gap-4">
@@ -264,6 +308,11 @@ export default function CreateEventPage() {
             value={formik.values.maxCapacity}
             onChange={formik.handleChange}
           />
+          {formik.errors.maxCapacity && formik.touched.maxCapacity && (
+            <p className="text-red-500 text-sm mt-1">
+              {formik.errors.maxCapacity}
+            </p>
+          )}
         </div>
 
         <div>
@@ -283,6 +332,9 @@ export default function CreateEventPage() {
               ))}
             </SelectContent>
           </Select>
+          {formik.errors.status && formik.touched.status && (
+            <p className="text-red-500 text-sm mt-1">{formik.errors.status}</p>
+          )}
         </div>
 
         <div>
@@ -296,6 +348,9 @@ export default function CreateEventPage() {
               formik.setFieldValue("image", file);
             }}
           />
+          {formik.errors.image && formik.touched.image && (
+            <p className="text-red-500 text-sm mt-1">{formik.errors.image}</p>
+          )}
         </div>
 
         <Button type="submit" className="w-full" disabled={formik.isSubmitting}>

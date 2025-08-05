@@ -1,16 +1,16 @@
 import * as Yup from "yup";
 
 export const validationCreateEventSchema = Yup.object().shape({
-  title: Yup.string().required("Time off type is required"),
-  startDay: Yup.string().required("Reason is required"),
-  endDay: Yup.string().required("Date is required"),
-  startTime: Yup.string().required("Date is required"),
-  endTime: Yup.string().required("Date is required"),
-  category: Yup.string().required("Date is required"),
-  location: Yup.string().required("Date is required"),
-  description: Yup.string().required("Date is required"),
+  title: Yup.string().required("Title is required"),
+  startDay: Yup.string().required("Start date is required"),
+  endDay: Yup.string().required("End date is required"),
+  startTime: Yup.string().required("Event start time is required"),
+  endTime: Yup.string().required("Event end time is required"),
+  category: Yup.string().required("Category is required"),
+  location: Yup.string().required("Location is required"),
+  description: Yup.string().required("Description is required"),
   maxCapacity: Yup.number().required("Max capacity is required"),
-  status: Yup.string().required("Date is required"),
+  status: Yup.string().required("Event status is required "),
   ticketCategories: Yup.array()
   .of(
     Yup.object().shape({
