@@ -9,20 +9,21 @@ import useUpdateProfile, {
 } from "../_hooks/useUpdateProfile";
 import { validationUserProfileSchema } from "@/features/user/profile/schema/validationUserProfileSchema";
 import { useState } from "react";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
-export default function UserProfilePage() {
+function UserProfilePage() {
   const { data } = useGetProfile();
   const { updateProfileMutation } = useUpdateProfile();
   const [isEditing, setIsEditing] = useState(false);
 
   const fieldLabels: Record<keyof UpdateProfilePayload, string> = {
-  firstName: "First Name",
-  lastName: "Last Name",
-  phoneNumber: "Phone Number",
-  username: "Username",
-  email: "Email",
-  imageUrl: "Profile Picture",
-};
+    firstName: "First Name",
+    lastName: "Last Name",
+    phoneNumber: "Phone Number",
+    username: "Username",
+    email: "Email",
+    imageUrl: "Profile Picture",
+  };
 
   const formik = useFormik<UpdateProfilePayload>({
     enableReinitialize: true,
@@ -185,3 +186,8 @@ export default function UserProfilePage() {
     </>
   );
 }
+
+export default withAuthGuard(UserProfilePage, {
+  allowedRoles: ["USER"],
+  redirectTo: "/user/login",
+});

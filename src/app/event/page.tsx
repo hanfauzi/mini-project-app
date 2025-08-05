@@ -1,8 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useFilteredEvents } from "../event/_hooks/useFilterEvents";
-import { IoLocationOutline } from "react-icons/io5";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -11,11 +9,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Event } from "@/types/event";
-import Link from "next/link";
 import Image from "next/image";
-import { eventCategories } from "./_constants/eventCategories";
-import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { useState } from "react";
+import { IoLocationOutline } from "react-icons/io5";
 import { useDebounceValue } from "usehooks-ts";
+import { useFilteredEvents } from "../event/_hooks/useFilterEvents";
+import { eventCategories } from "./_constants/eventCategories";
 
 const EventFilterPage = () => {
   const [category, setCategory] = useState<string>();

@@ -3,7 +3,7 @@
 import { useFormik } from "formik";
 import Head from "next/head";
 import { validationSendEmailSchema } from "@/features/forgot-password/schema/validationSendEmailSchema";
-import useSendEmailOrganizer from "@/app/forgot-password/_hooks/useSendEmailOrganizer";
+import useSendEmailOrganizer from "@/app/organizer/_hooks/useSendEmailOrganizer";
 
 export default function SendEmailPage() {
   const { sendEmailOrganizerMutation } = useSendEmailOrganizer();

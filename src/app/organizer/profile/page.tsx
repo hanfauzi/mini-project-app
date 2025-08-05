@@ -9,8 +9,9 @@ import useGetOrganizerProfile from "../_hooks/useProfile";
 import useUpdateProfileOrganizer, {
   UpdateProfileOrganizer,
 } from "../_hooks/useUpdateProfile";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
-export default function UserProfilePage() {
+function OrganizerProfilePage() {
   const { data } = useGetOrganizerProfile();
   const { updateProfileOrganizerMutation } = useUpdateProfileOrganizer();
   const [isEditing, setIsEditing] = useState(false);
@@ -182,3 +183,7 @@ export default function UserProfilePage() {
     </>
   );
 }
+
+export default withAuthGuard(OrganizerProfilePage, {
+  allowedRoles: ["ORGANIZER"],
+});

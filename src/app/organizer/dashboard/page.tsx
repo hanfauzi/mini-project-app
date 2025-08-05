@@ -6,8 +6,9 @@ import { ChartLine } from "../_components/chartLine";
 import useGetOverview from "../_hooks/useGetOverview";
 import { useState } from "react";
 import { YearSelect } from "../_components/yearSelect";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
-export default function DashboardPage() {
+ function DashboardPage() {
   const { data } = useGetDashboard();
   const [selectedYear, setSlectedyear] = useState(new Date().getFullYear());
   const { data: overviewData } = useGetOverview(selectedYear);
@@ -87,3 +88,5 @@ export default function DashboardPage() {
     </>
   );
 }
+
+export default withAuthGuard(DashboardPage, {allowedRoles: ["ORGANIZER"], redirectTo: "/"})
