@@ -5,7 +5,7 @@ import TransactionClientPage from "./_components/TransactionClientPage";
 import { Event } from "@/types/event";
 
 export default async function TransactionPage(props: { params: { slug: string } }) {
-  const { params } = await props
+  const { params } =  props
 
   try {
     const res = await axiosInstance.get(`/api/event/${params.slug}`);

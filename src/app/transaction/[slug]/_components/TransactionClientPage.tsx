@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import { toast } from "sonner";
-import { FaLocationDot } from "react-icons/fa6";
+import { useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 import { IoAlarm } from "react-icons/io5";
+import { toast } from "sonner";
 
-import { Event } from "@/types/event";
 import { axiosInstance } from "@/lib/axios";
+import { Event } from "@/types/event";
 import useCreateTransaction from "../../_hooks/useCreateTransaction";
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
   slug: string;
 };
 
-const TransactionClientPage = ({ event, slug }: Props) => {
+const TransactionClientPage = ({ event }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [voucherCode, setVoucherCode] = useState("");
