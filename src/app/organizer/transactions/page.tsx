@@ -6,9 +6,10 @@ import "dayjs/locale/id";
 import { useGetPendingTransactions } from "../_hooks/useGetPendingTransactions";
 import { useAcceptTransaction } from "../_hooks/useAcceptTransaction";
 import { useRejectTransaction } from "../_hooks/useRejectTransaction";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 dayjs.locale("id");
 
-export default function OrganizerTransactionsPage() {
+ function OrganizerTransactionsPage() {
   const {
     data: transactions,
     isLoading,
@@ -145,3 +146,4 @@ export default function OrganizerTransactionsPage() {
     </>
   );
 }
+export default withAuthGuard(OrganizerTransactionsPage, {   allowedRoles  : ["ORGANIZER"], redirectTo: "/" }) 
