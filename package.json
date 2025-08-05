@@ -42,7 +42,6 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
-    "@eslint/eslintrc": "^3",
     "@tanstack/eslint-plugin-query": "^5.81.2",
     "@types/node": "^20",
     "@types/react": "^19",
