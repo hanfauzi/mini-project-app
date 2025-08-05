@@ -3,4 +3,5 @@ export type CreateTransactionPayload = {
   ticketCategoryId: string;
   quantity: number;
   voucherCode?: string; 
+  slug?: string, 
 };
