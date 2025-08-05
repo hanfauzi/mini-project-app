@@ -2,7 +2,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
 import Image from "next/image";
 import { getEventDetail } from "./_api/getEventDetail";
 import { IoLocationOutline } from "react-icons/io5";
@@ -10,11 +9,9 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { IoAlarm } from "react-icons/io5";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 
-interface PageProps {
-  params: { slug: string };
-}
 
-const EventDetailPage = async ({ params }: PageProps) => {
+
+export default async function Page ({ params }: { params: { slug: string }})  {
   const event = await getEventDetail(params.slug);
 
   const formattedDate = new Date(event.startDay).toLocaleDateString("id-ID", {
@@ -145,4 +142,3 @@ const EventDetailPage = async ({ params }: PageProps) => {
   );
 };
 
-export default EventDetailPage;
