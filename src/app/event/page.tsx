@@ -33,9 +33,9 @@ const EventFilterPage = () => {
 
 
   return (
-    <div className="flex min-h-screen p-4 gap-4 bg-gray-50">
+    <div className="flex flex-col md:flex-row min-h-screen p-4 gap-4 bg-gray-50">
       {/* Sidebar Filter */}
-      <div className="w-1/5 bg-white p-4 shadow rounded-xl space-y-4">
+      <div className="w-full md:w-1/5 bg-white p-4 shadow rounded-xl space-y-4">
         <h2 className="text-xl font-bold">Filter</h2>
 
         <div>
@@ -72,7 +72,7 @@ const EventFilterPage = () => {
       </div>
 
       {/* Event Cards */}
-      <div className="w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {isLoading ? (
           <p className="col-span-full text-center text-gray-500">Loading...</p>
         ) : events.length === 0 ? (
