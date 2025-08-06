@@ -46,7 +46,7 @@ export default function EditEventPage() {
       <Head>
         <title>Edit Event - TICKLY</title>
       </Head>
-      <div className="min-h-screen px-6 pt-6">
+      <div className="min-h-screen px-6 pt-6 ">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-[24px] font-semibold text-[#001a3a]">
             Edit Event
@@ -73,7 +73,7 @@ export default function EditEventPage() {
               alt="Event Image"
               width={200}
               height={150}
-              className="rounded-lg border object-cover w-full max-w-md"
+              className="rounded-lg border object-cover w-full max-w-screen"
             />
             {isEditing && (
               <label className="mt-2 text-sm text-blue-600 cursor-pointer font-medium hover:underline">

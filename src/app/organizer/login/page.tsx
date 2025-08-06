@@ -75,8 +75,8 @@ export default function LoginOrganizerPage() {
               <p className="text-sm text-red-500">{formik.errors.password}</p>
             )}
             <div className="mt-2 text-right">
-              <a href="#" className="text-sm text-blue-700 font-medium">
-                Reset Password
+              <a href="/organizer/forgot-password" className="text-sm text-blue-700 font-medium">
+                Forgot Password?
               </a>
             </div>
           </div>

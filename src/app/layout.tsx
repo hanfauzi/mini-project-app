@@ -1,9 +1,11 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import ReactQueryProvider from "@/providers/ReactQueryProviders";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ReactQueryProvider>
-          <Navbar />
+           <NavbarWrapper/>
           {children}
           </ReactQueryProvider>
         <Toaster richColors position="top-right" />

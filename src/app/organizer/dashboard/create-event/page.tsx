@@ -15,7 +15,8 @@ import { validationCreateEventSchema } from "@/features/organizer/create-event/s
 import { useFormik } from "formik";
 import useCreateEventHook, {
   CreateEventFormValues,
-} from "../_hooks/createEvent";
+} from "../../_hooks/createEvent";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
 const categories = [
   "CULINARY",
@@ -37,7 +38,7 @@ const categories = [
 
 const statuses = ["UPCOMING", "ONGOING", "DONE"];
 
-export default function CreateEventPage() {
+ function CreateEventPage() {
   const { createEventMutation } = useCreateEventHook();
 
   const formik = useFormik<CreateEventFormValues>({
@@ -360,3 +361,6 @@ export default function CreateEventPage() {
     </div>
   );
 }
+
+export default withAuthGuard(CreateEventPage, {
+  allowedRoles: ["ORGANIZER"], redirectTo: "/organizer/login",});
