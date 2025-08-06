@@ -26,7 +26,7 @@ function MyEventsPage() {
         {events?.map((event: Event) => (
           <Link
             key={event.id}
-            href={`/organizer/dashboard/events/edit/${event.id}`}
+            href={`/organizer/dashboard/events/attendee/${event.id}`}
             className="w-full p-4 rounded-lg bg-[#f0f4fa] hover:bg-[#e0e7f1] transition-colors shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between cursor-pointer"
           >
             <div>
@@ -41,7 +41,7 @@ function MyEventsPage() {
                 {dayjs(event.endDay).format("DD MMMM YYYY")}
               </p>
             </div>
-            <Button className="mt-2 md:mt-0 text-sm text-blue-500">Edit </Button>
+            <Link href={`/organizer/dashboard/events/edit/${event.id}`}><Button className="mt-2 md:mt-0 text-sm text-blue-500">Edit </Button></Link>
           </Link>
         ))}
       </div>
