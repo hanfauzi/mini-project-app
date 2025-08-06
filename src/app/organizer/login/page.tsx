@@ -89,12 +89,7 @@ export default function LoginOrganizerPage() {
             {loginOrganizerMutation.isPending ? "Memproses..." : "Masuk"}
           </button>
 
-          <div className="text-center text-sm text-gray-600 mt-4">
-            Belum punya akun?{" "}
-            <a href="#" className="text-blue-700 font-medium">
-              Daftar Sekarang
-            </a>
-          </div>
+
         </form>
 
         {/* Footer */}

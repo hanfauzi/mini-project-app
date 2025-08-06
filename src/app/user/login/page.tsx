@@ -91,7 +91,7 @@ export default function LoginUserPage() {
 
           <div className="text-center text-sm text-gray-600 mt-4">
             Belum punya akun?{" "}
-            <a href="#" className="text-blue-700 font-medium">
+            <a href="/user/register" className="text-blue-700 font-medium">
               Daftar Sekarang
             </a>
           </div>
