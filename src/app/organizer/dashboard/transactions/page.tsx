@@ -3,9 +3,9 @@ import Head from "next/head";
 import Image from "next/image";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import { useGetPendingTransactions } from "../_hooks/useGetPendingTransactions";
-import { useAcceptTransaction } from "../_hooks/useAcceptTransaction";
-import { useRejectTransaction } from "../_hooks/useRejectTransaction";
+import { useGetPendingTransactions } from "../../_hooks/useGetPendingTransactions";
+import { useAcceptTransaction } from "../../_hooks/useAcceptTransaction";
+import { useRejectTransaction } from "../../_hooks/useRejectTransaction";
 import { withAuthGuard } from "@/hoc/AuthGuard";
 dayjs.locale("id");
 

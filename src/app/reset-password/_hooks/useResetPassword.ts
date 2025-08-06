@@ -2,6 +2,8 @@ import { axiosInstance } from "@/lib/axios";
 import { useAuthStore } from "@/stores/auth";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
 
 export interface ResetPasswordPayload {
@@ -12,6 +14,7 @@ export interface ResetPasswordPayload {
 
 export default function useResetPassword(role: "USER" | "ORGANIZER") {
   const { user } = useAuthStore();
+  const router = useRouter();
   const endpoint =
     role === "ORGANIZER"
       ? "/api/organizer/reset-password"
@@ -27,6 +30,7 @@ export default function useResetPassword(role: "USER" | "ORGANIZER") {
     },
     onSuccess: () => {
       toast.success("Password changed successfully!");
+      router.push(`/${role.toLowerCase()}/profile`);
     },
     onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error.response?.data.message ?? "Something went wrong!");

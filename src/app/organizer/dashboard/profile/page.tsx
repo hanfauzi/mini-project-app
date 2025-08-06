@@ -5,11 +5,12 @@ import { useFormik } from "formik";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import useGetOrganizerProfile from "../_hooks/useProfile";
+import useGetOrganizerProfile from "../../_hooks/useProfile";
 import useUpdateProfileOrganizer, {
   UpdateProfileOrganizer,
-} from "../_hooks/useUpdateProfile";
+} from "../../_hooks/useUpdateProfile";
 import { withAuthGuard } from "@/hoc/AuthGuard";
+import Link from "next/link";
 
 function OrganizerProfilePage() {
   const { data } = useGetOrganizerProfile();
@@ -182,6 +183,7 @@ function OrganizerProfilePage() {
             <div className="flex items-center border-b border-gray-200 py-2">
               <p className="text-gray-400 text-sm italic">**********</p>
             </div>
+            <Link href='/reset-password'><div >Edit Password</div></Link>
           </div>
         </form>
 

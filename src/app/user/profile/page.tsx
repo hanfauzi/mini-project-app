@@ -11,6 +11,7 @@ import { validationUserProfileSchema } from "@/features/user/profile/schema/vali
 import { useState } from "react";
 import { withAuthGuard } from "@/hoc/AuthGuard";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 function UserProfilePage() {
   const { data } = useGetProfile();
@@ -179,8 +180,9 @@ function UserProfilePage() {
             <label className="text-xs font-semibold text-[#001a3a] mb-1 block">
               Password
             </label>
-            <div className="flex items-center border-b border-gray-200 py-2">
+            <div className="flex items-center justify-between border-b border-gray-200 py-2">
               <p className="text-gray-400 text-sm italic">**********</p>
+              <Link href='/reset-password'><div >Edit Password</div></Link>
             </div>
           </div>
 
@@ -192,6 +194,7 @@ function UserProfilePage() {
             <div className="flex items-center border-b border-gray-200 py-2">
               <p className="text-gray-700 text-base">{data?.referralCode}</p>
             </div>
+            
           </div>
         </form>
 
