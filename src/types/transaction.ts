@@ -3,7 +3,8 @@ export type CreateTransactionPayload = {
   ticketCategoryId: string;
   quantity: number;
   voucherCode?: string; 
-  slug?: string, 
+  slug?: string,
+  usedPoints?: number; // Optional, if points system is implemented 
 };
 
 export interface Transaction {
