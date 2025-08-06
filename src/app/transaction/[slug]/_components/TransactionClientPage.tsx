@@ -21,6 +21,7 @@ const TransactionClientPage = ({ event }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const [voucherCode, setVoucherCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
+  const [usedPoints, setUsedPoints] = useState(0);
 
   const { createTransactionMutation } = useCreateTransaction();
   const { mutate: createTransaction, isPending } = createTransactionMutation;
@@ -63,6 +64,7 @@ const TransactionClientPage = ({ event }: Props) => {
       ticketCategoryId: selectedCategory,
       quantity,
       voucherCode,
+      usedPoints,
     });
   };
 
@@ -70,7 +72,8 @@ const TransactionClientPage = ({ event }: Props) => {
     (cat) => cat.id === selectedCategory
   );
   const originalPrice = selectedTicket ? selectedTicket.price * quantity : 0;
-  const totalPrice = Math.max(originalPrice - discountAmount, 0);
+  const maxUsablePoints = selectedTicket ? ((selectedTicket.price * quantity) * 0.05) : 0;
+  const totalPrice = Math.max(originalPrice - discountAmount - usedPoints, 0);
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -168,6 +171,26 @@ const TransactionClientPage = ({ event }: Props) => {
             </p>
           )}
         </div>
+
+        {/* Gunakan Point */}
+<div className="space-y-2">
+  <label className="font-medium block">Gunakan Point</label>
+  <input
+    type="number"
+    value={Number(usedPoints) || 0}
+    onChange={(e) => {
+      const val = parseInt(e.target.value);
+      setUsedPoints(Math.max(0, Math.min(val, maxUsablePoints)));
+    }}
+    className="w-full border border-gray-300 rounded px-3 py-2"
+    placeholder="Masukkan jumlah point"
+    min={0}
+    max={maxUsablePoints}
+  />
+  <p className="text-gray-500 text-sm">
+    Maksimal point yang bisa digunakan: {maxUsablePoints}
+  </p>
+</div>
 
         {/* Total Price */}
         <div className="pt-4 border-t font-semibold text-lg flex justify-between">
