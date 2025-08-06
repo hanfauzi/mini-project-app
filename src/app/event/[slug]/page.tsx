@@ -9,9 +9,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { IoAlarm } from "react-icons/io5";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 
-
-
-export default async function Page ({ params }: { params: { slug: string }})  {
+export default async function Page({ params }: { params: { slug: string } }) {
   const event = await getEventDetail(params.slug);
 
   const formattedDate = new Date(event.startDay).toLocaleDateString("id-ID", {
@@ -121,6 +119,9 @@ export default async function Page ({ params }: { params: { slug: string }})  {
               </div>
             </TabsContent>
           </Tabs>
+          <Button asChild variant="secondary" className="w-full">
+            <Link href={`/review/${event.id}`}>Kirim Review</Link>
+          </Button>
         </div>
 
         {/* Kanan 30%: Selalu Tampil */}
@@ -140,5 +141,4 @@ export default async function Page ({ params }: { params: { slug: string }})  {
       </section>
     </main>
   );
-};
-
+}
