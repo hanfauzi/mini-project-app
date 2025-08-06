@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { useAuthStore } from "@/stores/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const useAcceptTransaction = () => {
   const { user } = useAuthStore();
@@ -22,6 +23,7 @@ export const useAcceptTransaction = () => {
     onSuccess: () => {
       // Refresh pending transactions after action
       queryClient.invalidateQueries({ queryKey: ["pending-transactions"] });
+      toast.success("Transaction accepted successfully!");
     },
   });
 };

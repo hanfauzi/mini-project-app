@@ -24,9 +24,9 @@ function MyEventsPage() {
       <h1 className="text-[24px] font-semibold mb-6">My Events</h1>
       <div className="flex flex-col gap-4">
         {events?.map((event: Event) => (
-          <Link
+          <div
             key={event.id}
-            href={`/organizer/dashboard/events/attendee/${event.id}`}
+            
             className="w-full p-4 rounded-lg bg-[#f0f4fa] hover:bg-[#e0e7f1] transition-colors shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between cursor-pointer"
           >
             <div>
@@ -41,8 +41,11 @@ function MyEventsPage() {
                 {dayjs(event.endDay).format("DD MMMM YYYY")}
               </p>
             </div>
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-2 mt-2 md:mt-0">
             <Link href={`/organizer/dashboard/events/edit/${event.id}`}><Button className="mt-2 md:mt-0 text-sm text-blue-500">Edit </Button></Link>
-          </Link>
+            <Link href={`/organizer/dashboard/events/attendee/${event.id}`}><Button className="mt-2 md:mt-0 text-sm text-blue-500">Attendee List</Button></Link>
+          </div>
+          </div>
         ))}
       </div>
     </>
