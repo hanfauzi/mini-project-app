@@ -36,6 +36,9 @@ const Navbar = () => {
               <Link href="/user/profile" className="hover:underline">
                 Profile
               </Link>
+              <Link href="/user/transactions" className="hover:underline">
+                My Transaction
+              </Link>
               <Button variant="destructive" onClick={clearAuth}>
                 Logout
               </Button>
