@@ -4,8 +4,7 @@ import EventList from './_components/EventList'
 const Page = () => {
    
   return (
-    <div>
-         <h1 className="container mx-auto text-xl font-bold">Home Page</h1>
+    <div className='container mx-auto px-4 min-h-screen py-4'>
       <EventList />
     </div>
   )

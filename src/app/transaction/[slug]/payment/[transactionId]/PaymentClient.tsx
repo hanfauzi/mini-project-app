@@ -60,7 +60,7 @@ export default function PaymentClient({ transactionId }: Props) {
   if (error) return <p>Error: {error}</p>;
 
   const { event, status } = transaction.data;
-  const isExpired = timeLeft <= 0;
+  const isExpired = timeLeft <= 0 || transaction.data.isExpired;
 
   return (
     <div className="max-w-xl mx-auto mt-8 p-6 bg-white shadow rounded-xl space-y-6">

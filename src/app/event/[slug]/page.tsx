@@ -34,11 +34,11 @@ export default async function Page ({ params }: { params: { slug: string }})  {
         })}`;
 
   return (
-    <main className="max-w-6xl mx-auto py-10 px-4 space-y-10">
+    <main className="max-w-6xl mx-auto py-10 px-4 space-y-2">
       {/* Section Atas */}
-      <section className="grid grid-cols-10 gap-6 min-h-[40vh]">
+      <section className="grid grid-cols-1 md:grid-cols-10 gap-6 min-h-[40vh]">
         {/* bagian kiri ini saya buat untuk detail judul, lokasi, tanggal, dan jam. */}
-        <div className="col-span-7 space-y-4">
+        <div className="md:col-span-7 space-y-4">
           <h1 className="text-3xl font-bold">{event.title}</h1>
           <p className="text-muted-foreground flex items-center gap-1">
             <IoLocationOutline />
@@ -60,7 +60,7 @@ export default async function Page ({ params }: { params: { slug: string }})  {
         </div>
 
         {/* Kanan 30% */}
-        <div className="col-span-3 relative h-60 rounded overflow-hidden shadow-md">
+        <div className="md:col-span-3 relative h-60">
           <Image
             src={event.imageURL || "/fallback-image.jpg"}
             alt={event.title}
@@ -71,9 +71,9 @@ export default async function Page ({ params }: { params: { slug: string }})  {
       </section>
 
       {/* Section Bawah */}
-      <section className="grid grid-cols-10 gap-6 min-h-[60vh]">
+      <section className="grid grid-cols-1 md:grid-cols-10 gap-6 min-h-[40vh]">
         {/* Kiri 70%: Tabs */}
-        <div className="col-span-7">
+        <div className="md:col-span-7 space-y-4">
           <Tabs defaultValue="description" className="w-full">
             <TabsList className="mb-6">
               <TabsTrigger value="description">Deskripsi</TabsTrigger>
@@ -124,7 +124,7 @@ export default async function Page ({ params }: { params: { slug: string }})  {
         </div>
 
         {/* Kanan 30%: Selalu Tampil */}
-        <div className="col-span-3 space-y-4">
+        <div className="md:col-span-3 relative h-60 items-center space-y-4">
           <div className="p-4 border rounded shadow-sm">
             <h3 className="text-lg font-semibold">Harga Tiket</h3>
             <p className="text-xl font-bold text-primary">{displayPrice}</p>

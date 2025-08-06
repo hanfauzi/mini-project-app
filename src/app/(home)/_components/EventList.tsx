@@ -25,11 +25,11 @@ const EventList = () => {
       <Input
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Cari event..."
+        placeholder="Cari event serumu disini..."
         className="max-w-md mx-auto mb-6"
       />
 
-      <section className="grid grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {isPending && <p>Loading...</p>}
         {events?.data.map((event) => (
           <EventCard key={event.id} event={event} />
