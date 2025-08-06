@@ -127,8 +127,14 @@ export default function RegisterUserPage() {
 
           <div className="text-center text-sm text-gray-600 mt-4">
             Sudah punya akun?{" "}
-            <a href="#" className="text-blue-700 font-medium">
+            <a href="/user/login" className="text-blue-700 font-medium">
               Masuk Sekarang
+            </a>
+          </div>
+          <div className="text-center text-sm text-gray-600 mt-4">
+            Ingin Membuat Event?{" "}
+            <a href="/organizer/register" className="text-blue-700 font-medium">
+              Daftar Menjadi Organizer Sekarang
             </a>
           </div>
         </form>

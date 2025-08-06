@@ -100,12 +100,7 @@ export default function RegisterOrganizerPage() {
             {registerOrganizerMutation.isPending ? "Memproses..." : "Daftar"}
           </button>
 
-          <div className="text-center text-sm text-gray-600 mt-4">
-            Sudah punya akun Organizer?{" "}
-            <a href="#" className="text-blue-700 font-medium">
-              Masuk Sekarang
-            </a>
-          </div>
+
         </form>
 
         {/* Footer */}
