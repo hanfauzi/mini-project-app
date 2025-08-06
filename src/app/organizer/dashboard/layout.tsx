@@ -8,6 +8,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
   SidebarProvider,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
@@ -36,14 +38,15 @@ export default function OrganizerLayout({ children }: { children: React.ReactNod
                     </Link>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <Link href="/organizer/dashboard/events">
                       <SidebarMenuButton className="w-full">Events</SidebarMenuButton>
+                      <Link href={"/organizer/dashboard/events"}>
+                      <SidebarMenuSub className="text-[14px]">My Events
+                    </SidebarMenuSub>
                     </Link>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <Link href="/organizer/dashboard/create-event">
-                      <SidebarMenuButton className="w-full">Create Event</SidebarMenuButton>
-                    </Link>
+                    <Link href={"/organizer/dashboard/create-event"}>
+                    <SidebarMenuSub className="text-[14px]">Create Event
+                    </SidebarMenuSub>
+                  </Link>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <Link href="/organizer/dashboard/transactions">

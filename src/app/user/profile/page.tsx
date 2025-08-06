@@ -198,12 +198,6 @@ function UserProfilePage() {
           </div>
         </form>
 
-        {/* Hapus akun */}
-        <div className="mt-8 text-center mb-6">
-          <button className="text-sm text-red-500 font-semibold hover:underline hover:text-red-700 transition">
-            Hapus Akun Saya
-          </button>
-        </div>
       </div>
     </>
   );

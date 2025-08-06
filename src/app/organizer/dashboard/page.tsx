@@ -10,8 +10,10 @@ import useGetOverview from "../_hooks/useGetOverview";
 
 function DashboardPage() {
   const { data } = useGetDashboard();
+  console.log("Dashboard Data:", data);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const { data: overviewData } = useGetOverview(selectedYear);
+  console.log("Overview Data:", overviewData);
 
   const chartData = overviewData
     ? [
@@ -76,13 +78,7 @@ function DashboardPage() {
           )}
         </div>
 
-        {/* Recent Sales */}
-        <div className="bg-[#f0f4fa] p-6 rounded-lg shadow-sm">
-          <h2 className="text-lg font-semibold mb-2">Recent Sales</h2>
-          <p className="text-sm text-gray-600">
-            You have made 0 sales so far.
-          </p>
-        </div>
+
       </div>
     </>
   );
