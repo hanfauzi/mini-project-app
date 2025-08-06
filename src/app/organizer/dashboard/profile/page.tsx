@@ -11,11 +11,15 @@ import useUpdateProfileOrganizer, {
 } from "../../_hooks/useUpdateProfile";
 import { withAuthGuard } from "@/hoc/AuthGuard";
 import Link from "next/link";
+import { useOrganizerReviews } from "../../_hooks/useOrganizerReview";
 
 function OrganizerProfilePage() {
   const { data } = useGetOrganizerProfile();
   const { updateProfileOrganizerMutation } = useUpdateProfileOrganizer();
   const [isEditing, setIsEditing] = useState(false);
+  const { data: reviewData, isLoading: loadingReviews } = useOrganizerReviews(data?.id || "");
+
+  console.log("Review Data:", reviewData);
 
   const fieldLabels: Record<keyof UpdateProfileOrganizer, string> = {
     orgName: "Name",
@@ -115,7 +119,9 @@ function OrganizerProfilePage() {
                     height={18}
                     className="object-contain"
                   />
-                  <span className="text-xs text-blue-600 font-medium">Edit</span>
+                  <span className="text-xs text-blue-600 font-medium">
+                    Edit
+                  </span>
                   <input
                     type="file"
                     accept="image/*"
@@ -133,47 +139,52 @@ function OrganizerProfilePage() {
           </div>
 
           {/* Fields */}
-          {["orgName", "address", "phoneNumber", "bio", "username", "email"].map(
-            (field) => (
-              <div className="mb-5" key={field}>
-                <label className="text-xs font-semibold text-[#001a3a] capitalize mb-1 block">
-                  {fieldLabels[field as keyof UpdateProfileOrganizer]}
-                </label>
-                {isEditing ? (
-                  <>
-                    <input
-                      type="text"
-                      name={field}
-                      value={
-                        formik.values[
-                          field as keyof UpdateProfileOrganizer
-                        ] as string
-                      }
-                      onChange={formik.handleChange}
-                      className={`w-full border rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-200 transition ${
-                        formik.touched[field as keyof UpdateProfileOrganizer] &&
-                        formik.errors[field as keyof UpdateProfileOrganizer]
-                          ? "border-red-400"
-                          : "border-gray-300"
-                      }`}
-                    />
-                    {formik.touched[field as keyof UpdateProfileOrganizer] &&
-                      formik.errors[field as keyof UpdateProfileOrganizer] && (
-                        <div className="text-xs text-red-500 mt-1">
-                          {formik.errors[field as keyof UpdateProfileOrganizer]}
-                        </div>
-                      )}
-                  </>
-                ) : (
-                  <div className="flex items-center border-b border-gray-200 py-2">
-                    <p className="text-gray-700 text-base">
-                      {data?.[field as keyof typeof data]}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )
-          )}
+          {[
+            "orgName",
+            "address",
+            "phoneNumber",
+            "bio",
+            "username",
+            "email",
+          ].map((field) => (
+            <div className="mb-5" key={field}>
+              <label className="text-xs font-semibold text-[#001a3a] capitalize mb-1 block">
+                {fieldLabels[field as keyof UpdateProfileOrganizer]}
+              </label>
+              {isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    name={field}
+                    value={
+                      formik.values[
+                        field as keyof UpdateProfileOrganizer
+                      ] as string
+                    }
+                    onChange={formik.handleChange}
+                    className={`w-full border rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-200 transition ${
+                      formik.touched[field as keyof UpdateProfileOrganizer] &&
+                      formik.errors[field as keyof UpdateProfileOrganizer]
+                        ? "border-red-400"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  {formik.touched[field as keyof UpdateProfileOrganizer] &&
+                    formik.errors[field as keyof UpdateProfileOrganizer] && (
+                      <div className="text-xs text-red-500 mt-1">
+                        {formik.errors[field as keyof UpdateProfileOrganizer]}
+                      </div>
+                    )}
+                </>
+              ) : (
+                <div className="flex items-center border-b border-gray-200 py-2">
+                  <p className="text-gray-700 text-base">
+                    {data?.[field as keyof typeof data]}
+                  </p>
+                </div>
+              )}
+            </div>
+          ))}
 
           {/* Password (readonly display only) */}
           <div className="mb-5">
@@ -183,16 +194,54 @@ function OrganizerProfilePage() {
             <div className="flex items-center border-b border-gray-200 py-2">
               <p className="text-gray-400 text-sm italic">**********</p>
             </div>
-            <Link href='/reset-password'><div >Edit Password</div></Link>
+            <Link href="/reset-password">
+              <div>Edit Password</div>
+            </Link>
           </div>
         </form>
 
-        {/* Hapus akun */}
-        <div className="mt-8 text-center mb-6">
-          <button className="text-sm text-red-500 font-semibold hover:underline hover:text-red-700 transition">
-            Hapus Akun Saya
-          </button>
-        </div>
+       
+      </div>
+
+      {/* Review Section */}
+      <div className="my-10  bg-white p-6 rounded-xl shadow">
+        <h2 className="text-xl font-semibold text-[#001a3a] mb-4">
+          User Reviews
+        </h2>
+        {loadingReviews ? (
+          <p>Loading reviews...</p>
+        ) : reviewData?.reviews?.length === 0 ? (
+          <p className="text-gray-500 italic">No reviews yet.</p>
+        ) : (
+          <>
+            <div className="mb-4">
+              <p className="text-yellow-500 font-semibold text-lg">
+                Rating: ⭐ {reviewData?.averageRating?.toFixed(1) ?? "-"} / 5
+              </p>
+              <p className="text-sm text-gray-500">
+                Total Reviews: {reviewData?.totalReviews}
+              </p>
+            </div>
+
+            <ul className="space-y-4">
+              {reviewData?.reviews.map((review: any) => (
+                <li
+                  key={review.id}
+                  className="border border-gray-200 rounded-lg p-4"
+                >
+                  <p className="text-sm text-gray-600 mb-1">
+                    <span className="font-medium">
+                      {review.user?.firstName || review.user?.username}
+                    </span>{" "}
+                    on <span className="italic">{review.event?.title}</span>
+                  </p>
+                  <p className="text-yellow-500 mb-2">⭐ {review.rating}</p>
+                  <p className="text-gray-800">{review.comment}</p>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </>
   );
