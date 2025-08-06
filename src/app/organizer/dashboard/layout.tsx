@@ -55,6 +55,11 @@ export default function OrganizerLayout({ children }: { children: React.ReactNod
                       <SidebarMenuButton className="w-full">Profile</SidebarMenuButton>
                     </Link>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Link href="/organizer/dashboard/vouchers">
+                      <SidebarMenuButton className="w-full">vouchers</SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroup>
             </SidebarContent>

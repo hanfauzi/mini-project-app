@@ -25,24 +25,32 @@ const TransactionClientPage = ({ event }: Props) => {
   const { createTransactionMutation } = useCreateTransaction();
   const { mutate: createTransaction, isPending } = createTransactionMutation;
 
-  const handleVoucherCheck = () => {
-    if (!voucherCode) {
-      setDiscountAmount(0);
-      return;
-    }
+  const handleVoucherCheck = async () => {
+  if (!voucherCode) {
+    setDiscountAmount(0);
+    return;
+  }
 
-    axiosInstance
-      .get(`/api/voucher/validate?code=${voucherCode}&eventId=${event.id}`)
-      .then((res) => {
-        const discount = res.data.discountAmount || 0;
-        setDiscountAmount(discount);
-        toast.success(`Valid voucher! Discount ${discount.toLocaleString()}`);
-      })
-      .catch(() => {
-        setDiscountAmount(0);
-        toast.error("Voucher is invalid or not applicable for this event.");
-      });
-  };
+  try {
+    const res = await axiosInstance.get("/api/voucher/validate", {
+      params: {
+        code: voucherCode,
+        eventId: event.id,
+      },
+    });
+
+    const discount = res.data.discountAmount || 0;
+    setDiscountAmount(discount);
+    toast.success(`Valid voucher! Discount Rp ${discount.toLocaleString()}`);
+    console.log("Voucher Check Response:", res.data);
+  } catch (error: any) {
+    setDiscountAmount(0);
+    toast.error(
+      error?.response?.data?.message || "Voucher is invalid or not applicable."
+    );
+    console.error("Voucher Check Error:", error);
+  }
+};
 
   const handleTransaction = () => {
     if (!selectedCategory) {

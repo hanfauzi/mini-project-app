@@ -63,7 +63,7 @@ export default function PaymentClient({ transactionId }: Props) {
   const isExpired = timeLeft <= 0 || transaction.data.isExpired;
 
   return (
-    <div className="max-w-xl mx-auto mt-8 p-6 bg-white shadow rounded-xl space-y-6">
+    <div className="max-w-xl mx-auto mt-8 p-6 min-h-screen bg-white shadow rounded-xl space-y-6">
       <h1 className="text-2xl font-bold">Transaksi untuk: {event.title}</h1>
       <p className="text-gray-600">Status: {status}</p>
 
