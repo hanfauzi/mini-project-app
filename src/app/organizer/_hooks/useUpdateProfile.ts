@@ -43,7 +43,7 @@ export default function useUpdateProfileOrganizer() {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["profile-organizer"] });
       toast.success("Update profile successfull!");
     },
     onError: (error: AxiosError<{ message: string }>) => {

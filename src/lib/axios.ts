@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://tickly-backend.vercel.app",
+  baseURL: "http://localhost:8000",
 });
 
 
