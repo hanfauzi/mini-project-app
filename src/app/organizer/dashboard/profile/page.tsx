@@ -19,7 +19,6 @@ function OrganizerProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const { data: reviewData, isLoading: loadingReviews } = useOrganizerReviews(data?.id || "");
 
-  console.log("Review Data:", reviewData);
 
   const fieldLabels: Record<keyof UpdateProfileOrganizer, string> = {
     orgName: "Name",

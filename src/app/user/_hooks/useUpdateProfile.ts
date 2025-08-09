@@ -26,6 +26,7 @@ export default function useUpdateProfile() {
       if (payload.lastName) formData.append("lastName", payload.lastName);
       if (payload.phoneNumber)
         formData.append("phoneNumber", payload.phoneNumber);
+      if( payload.email) formData.append("email", payload.email);
       if (payload.username) formData.append("username", payload.username);
       if (payload.imageUrl) formData.append("image", payload.imageUrl);
 
