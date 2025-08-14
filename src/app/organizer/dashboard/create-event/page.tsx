@@ -17,6 +17,7 @@ import useCreateEventHook, {
   CreateEventFormValues,
 } from "../../_hooks/createEvent";
 import { withAuthGuard } from "@/hoc/AuthGuard";
+import { useEffect } from "react";
 
 const categories = [
   "CULINARY",
@@ -66,6 +67,14 @@ const statuses = ["UPCOMING", "ONGOING", "DONE"];
       });
     },
   });
+
+   useEffect(() => {
+    const totalQuota = formik.values.ticketCategories.reduce(
+      (sum, ticket) => sum + (ticket.quota || 0),
+      0
+    );
+    formik.setFieldValue("maxCapacity", totalQuota.toString());
+  }, [formik.values.ticketCategories]);
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-4">
@@ -292,7 +301,7 @@ const statuses = ["UPCOMING", "ONGOING", "DONE"];
               onClick={() =>
                 formik.setFieldValue("ticketCategories", [
                   ...formik.values.ticketCategories,
-                  { name: "", price: 0, stock: 0 },
+                  { name: "", price: 0, quota: 1 },
                 ])
               }
             >
@@ -307,7 +316,8 @@ const statuses = ["UPCOMING", "ONGOING", "DONE"];
             type="number"
             name="maxCapacity"
             value={formik.values.maxCapacity}
-            onChange={formik.handleChange}
+            readOnly
+            className="bg-gray-100 cursor-not-allowed"
           />
           {formik.errors.maxCapacity && formik.touched.maxCapacity && (
             <p className="text-red-500 text-sm mt-1">

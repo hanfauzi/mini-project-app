@@ -33,7 +33,7 @@ export default function OrganizerVoucherPage() {
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Voucher yang Sudah Dibuat</h1>
-          <Button onClick={() => router.push("/dahsboard/organizer/create-voucher")}>
+          <Button onClick={() => router.push("/organizer/dashboard/create-voucher")}>
             Buat Voucher Promo
           </Button>
         </div>

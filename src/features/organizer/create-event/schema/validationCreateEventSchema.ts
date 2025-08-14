@@ -17,11 +17,11 @@ export const validationCreateEventSchema = Yup.object().shape({
       name: Yup.string().required("Ticket name is required"),
       price: Yup.number()
         .typeError("Price must be a number")
-        .min(1, "Minimum price is 1")
+        .min(0, "Minimum price is 0")
         .required("Price is required"),
       quota: Yup.number()
         .typeError("quota must be a number")
-        .min(1, "Minimum stock is 1")
+        .min(1, "Minimum quota is 1")
         .required("quota is required"),
     })
   )
