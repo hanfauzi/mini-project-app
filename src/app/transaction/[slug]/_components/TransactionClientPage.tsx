@@ -27,31 +27,32 @@ const TransactionClientPage = ({ event }: Props) => {
   const { mutate: createTransaction, isPending } = createTransactionMutation;
 
   const handleVoucherCheck = async () => {
-  if (!voucherCode) {
-    setDiscountAmount(0);
-    return;
-  }
+    if (!voucherCode) {
+      setDiscountAmount(0);
+      return;
+    }
 
-  try {
-    const res = await axiosInstance.get("/api/voucher/validate", {
-      params: {
-        code: voucherCode,
-        eventId: event.id,
-      },
-    });
+    try {
+      const res = await axiosInstance.get("/api/voucher/validate", {
+        params: {
+          code: voucherCode,
+          eventId: event.id,
+        },
+      });
 
-    const discount = res.data.discountAmount || 0;
-    setDiscountAmount(discount);
-    toast.success(`Valid voucher! Discount Rp ${discount.toLocaleString()}`);
-    console.log("Voucher Check Response:", res.data);
-  } catch (error: any) {
-    setDiscountAmount(0);
-    toast.error(
-      error?.response?.data?.message || "Voucher is invalid or not applicable."
-    );
-    console.error("Voucher Check Error:", error);
-  }
-};
+      const discount = res.data.discountAmount || 0;
+      setDiscountAmount(discount);
+      toast.success(`Valid voucher! Discount Rp ${discount.toLocaleString()}`);
+      console.log("Voucher Check Response:", res.data);
+    } catch (error: any) {
+      setDiscountAmount(0);
+      toast.error(
+        error?.response?.data?.message ||
+          "Voucher is invalid or not applicable."
+      );
+      console.error("Voucher Check Error:", error);
+    }
+  };
 
   const handleTransaction = () => {
     if (!selectedCategory) {
@@ -72,7 +73,9 @@ const TransactionClientPage = ({ event }: Props) => {
     (cat) => cat.id === selectedCategory
   );
   const originalPrice = selectedTicket ? selectedTicket.price * quantity : 0;
-  const maxUsablePoints = selectedTicket ? ((selectedTicket.price * quantity) * 0.05) : 0;
+  const maxUsablePoints = selectedTicket
+    ? selectedTicket.price * quantity * 0.05
+    : 0;
   const totalPrice = Math.max(originalPrice - discountAmount - usedPoints, 0);
 
   return (
@@ -173,24 +176,24 @@ const TransactionClientPage = ({ event }: Props) => {
         </div>
 
         {/* Gunakan Point */}
-<div className="space-y-2">
-  <label className="font-medium block">Gunakan Point</label>
-  <input
-    type="number"
-    value={Number(usedPoints) || 0}
-    onChange={(e) => {
-      const val = parseInt(e.target.value);
-      setUsedPoints(Math.max(0, Math.min(val, maxUsablePoints)));
-    }}
-    className="w-full border border-gray-300 rounded px-3 py-2"
-    placeholder="Masukkan jumlah point"
-    min={0}
-    max={maxUsablePoints}
-  />
-  <p className="text-gray-500 text-sm">
-    Maksimal point yang bisa digunakan: {maxUsablePoints}
-  </p>
-</div>
+        <div className="space-y-2">
+          <label className="font-medium block">Gunakan Point</label>
+          <input
+            type="number"
+            value={Number(usedPoints) || 0}
+            onChange={(e) => {
+              const val = parseInt(e.target.value);
+              setUsedPoints(Math.max(0, Math.min(val, maxUsablePoints)));
+            }}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+            placeholder="Masukkan jumlah point"
+            min={0}
+            max={maxUsablePoints}
+          />
+          <p className="text-gray-500 text-sm">
+            Maksimal point yang bisa digunakan: {maxUsablePoints}
+          </p>
+        </div>
 
         {/* Total Price */}
         <div className="pt-4 border-t font-semibold text-lg flex justify-between">
