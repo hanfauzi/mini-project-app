@@ -18,7 +18,6 @@ const useCreateTransaction = () => {
     CreateTransactionPayload
   >({
     mutationFn: async (payload) => {
-      console.log("Sending transaction with payload:", payload);
 
       const res = await axiosInstance.post("/api/transaction", payload, {
         headers: {
@@ -26,7 +25,6 @@ const useCreateTransaction = () => {
         },
       });
 
-      console.log("Response from backend:", res.data);
 
       const transaction = res.data.data;
 
@@ -40,7 +38,6 @@ const useCreateTransaction = () => {
       };
     },
     onSuccess: (data) => {
-      console.log("Transaction success data:", data);
       try {
         const transactionId = data.transactionId;
         const slug = data.event?.slug;

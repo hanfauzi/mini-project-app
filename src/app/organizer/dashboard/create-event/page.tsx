@@ -364,8 +364,8 @@ const statuses = ["UPCOMING", "ONGOING", "DONE"];
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={formik.isSubmitting}>
-          Create Event
+        <Button type="submit" className="w-full" disabled={createEventMutation.isPending}>
+          {createEventMutation.isPending ? "Loading..." : "Create Event"}
         </Button>
       </form>
     </div>
