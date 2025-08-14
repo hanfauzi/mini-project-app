@@ -209,7 +209,7 @@ const TransactionClientPage = ({ event }: Props) => {
           disabled={!selectedCategory || isPending}
           className="mt-4 w-full bg-blue-600 text-white cursor-pointer py-3 rounded-xl hover:bg-blue-700 transition"
         >
-          Beli Tiket
+          {isPending ? "Loading..." : "Beli Tiket"}
         </button>
       </div>
     </div>
