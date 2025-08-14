@@ -4,7 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useFormik } from "formik";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { withAuthGuard } from "@/hoc/AuthGuard";
 
 import { validationOrganizerProfileSchema } from "@/features/organizer/profile/schema/validationOrganizerProfileSchema";
@@ -67,6 +67,17 @@ function OrganizerProfilePage() {
     return data?.logoUrl || "/default-profile.jpg";
   }, [formik.values.logoUrl, data?.logoUrl]);
 
+  // Revoke object URL untuk mencegah memory leak
+  useEffect(() => {
+    if (!(formik.values.logoUrl instanceof File)) return;
+    const url = avatarSrc;
+    return () => {
+      try {
+        URL.revokeObjectURL(url as string);
+      } catch {}
+    };
+  }, [avatarSrc, formik.values.logoUrl]);
+
   const handlePickFile = () => fileInputRef.current?.click();
 
   const clearSelectedPhoto = () => {
@@ -96,7 +107,6 @@ function OrganizerProfilePage() {
       </Head>
 
       <div className="min-h-screen bg-[#f8fafc]">
-
         <div className="px-4 sm:px-6 lg:px-8 pt-8 pb-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -143,10 +153,9 @@ function OrganizerProfilePage() {
           </div>
         </div>
 
-
         <form onSubmit={formik.handleSubmit} className="px-4 sm:px-6 lg:px-8 pb-12">
           <div className="grid gap-6 lg:gap-8 md:grid-cols-[320px_1fr]">
-
+            {/* Left card */}
             <Card className="overflow-hidden">
               <CardHeader className="pb-2">
                 <CardTitle className="text-[#001a3a]">Brand Overview</CardTitle>
@@ -162,11 +171,21 @@ function OrganizerProfilePage() {
                       height={144}
                       className="h-36 w-36 rounded-full object-cover border-4 border-blue-100 shadow-md bg-white"
                     />
+
+                    {/* ⬇️ Hidden file input yang di-ref (WAJIB) */}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/png,image/jpeg,image/jpg,image/webp"
+                      className="hidden"
+                      onChange={onFileChange}
+                    />
+
                     {isEditing && (
                       <button
                         type="button"
                         onClick={handlePickFile}
-                        className="absolute -bottom-2 -right-2 flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-blue-700 border border-blue-200 shadow hover:bg-blue-50"
+                        className="absolute -bottom-2 -right-2 z-10 flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-blue-700 border border-blue-200 shadow hover:bg-blue-50"
                       >
                         <Camera className="h-4 w-4" />
                         Ganti
@@ -201,7 +220,6 @@ function OrganizerProfilePage() {
 
                   <Separator className="my-4" />
 
-
                   <div className="w-full space-y-3">
                     <div className="flex items-center gap-2 text-[#335071]">
                       <MapPin className="h-4 w-4" />
@@ -221,7 +239,6 @@ function OrganizerProfilePage() {
 
                   <Separator className="my-4" />
 
-
                   <div className="w-full">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1 text-yellow-500">
@@ -239,7 +256,7 @@ function OrganizerProfilePage() {
               </CardContent>
             </Card>
 
-
+            {/* Right card */}
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-[#001a3a]">Pengaturan Organizer</CardTitle>
@@ -253,10 +270,8 @@ function OrganizerProfilePage() {
                     <TabsTrigger value="reviews">Reviews</TabsTrigger>
                   </TabsList>
 
-
                   <TabsContent value="profile" className="mt-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
                       <div className="space-y-2">
                         <Label htmlFor="orgName" className="text-[#001a3a]">
                           {fieldLabels.orgName}
@@ -276,7 +291,6 @@ function OrganizerProfilePage() {
                           <p className="text-xs text-red-500">{formik.errors.orgName}</p>
                         )}
                       </div>
-
 
                       <div className="space-y-2">
                         <Label htmlFor="username" className="text-[#001a3a]">
@@ -298,7 +312,6 @@ function OrganizerProfilePage() {
                         )}
                       </div>
 
-
                       <div className="space-y-2">
                         <Label htmlFor="email" className="text-[#001a3a]">
                           {fieldLabels.email}
@@ -318,7 +331,6 @@ function OrganizerProfilePage() {
                           <p className="text-xs text-red-500">{formik.errors.email}</p>
                         )}
                       </div>
-
 
                       <div className="space-y-2">
                         <Label htmlFor="phoneNumber" className="text-[#001a3a]">
@@ -340,7 +352,6 @@ function OrganizerProfilePage() {
                         )}
                       </div>
 
-
                       <div className="space-y-2 md:col-span-2">
                         <Label htmlFor="address" className="text-[#001a3a]">
                           {fieldLabels.address}
@@ -361,7 +372,6 @@ function OrganizerProfilePage() {
                         )}
                       </div>
 
-                      {/* bio */}
                       <div className="space-y-2 md:col-span-2">
                         <Label htmlFor="bio" className="text-[#001a3a]">
                           {fieldLabels.bio}
@@ -405,7 +415,6 @@ function OrganizerProfilePage() {
                     )}
                   </TabsContent>
 
-                  {/* SECURITY TAB */}
                   <TabsContent value="security" className="mt-6">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between rounded-lg border bg-white p-4">
@@ -419,7 +428,6 @@ function OrganizerProfilePage() {
                       </div>
                     </div>
                   </TabsContent>
-
 
                   <TabsContent value="reviews" className="mt-6">
                     {loadingReviews ? (
