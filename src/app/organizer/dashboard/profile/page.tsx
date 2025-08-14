@@ -67,7 +67,7 @@ function OrganizerProfilePage() {
     return data?.logoUrl || "/default-profile.jpg";
   }, [formik.values.logoUrl, data?.logoUrl]);
 
-  // Revoke object URL untuk mencegah memory leak
+
   useEffect(() => {
     if (!(formik.values.logoUrl instanceof File)) return;
     const url = avatarSrc;
@@ -172,7 +172,7 @@ function OrganizerProfilePage() {
                       className="h-36 w-36 rounded-full object-cover border-4 border-blue-100 shadow-md bg-white"
                     />
 
-                    {/* ⬇️ Hidden file input yang di-ref (WAJIB) */}
+
                     <input
                       ref={fileInputRef}
                       type="file"
