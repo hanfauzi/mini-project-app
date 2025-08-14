@@ -1,68 +1,119 @@
 "use client";
 
-import { useFormik } from "formik";
 import Head from "next/head";
+import { useState } from "react";
+import { useFormik } from "formik";
 import useForgotPassword from "../../_hooks/useForgotPassword";
 import { validationNewPasswordSchema } from "@/features/forgot-password/schema/validationNewPasswordSchema";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SendEmailPage() {
   const { forgotPasswordMutation } = useForgotPassword();
+  const [show, setShow] = useState(false);
 
   const formik = useFormik({
-    initialValues: {
-      newPassword: "",
-    },
+    initialValues: { newPassword: "" },
     validationSchema: validationNewPasswordSchema,
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       forgotPasswordMutation.mutate(values);
     },
   });
+
+  const pending = forgotPasswordMutation.isPending;
+  const hasErr = !!(formik.touched.newPassword && formik.errors.newPassword);
+
   return (
     <>
       <Head>
-        <title>Forgot Password</title>
+        <title>Buat Password Baru | TICKLY</title>
       </Head>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="min-h-screen flex flex-col px-6 pt-6 gap-8">
-          {/* Header */}
-          <div className="flex justify-center items-center mb-8 text-[#001a3a]">
-            <h1 className="text-[24px] font-semibold">Forgot Password</h1>
-          </div>
 
-          <div>
-            <label className="text-sm font-medium text-[#001a3a]">
-              New Password
-            </label>
-            <div className="flex items-center border-b border-gray-400 py-2">
-              <input
-                type="password"
-                name="newPassword"
-                value={formik.values.newPassword}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="Masukkan Password Baru"
-                className="flex-1 outline-none bg-transparent text-gray-600 placeholder-gray-400"
-              />
+      <div className="min-h-screen grid place-items-center bg-[#f8fafc] px-4">
+        <Card className="w-full max-w-md border-blue-100">
+          <CardHeader className="pb-2">
+            <div className="flex flex-col items-center text-center">
+              <div className="font-extrabold text-xl tracking-tight text-blue-700">TICKLY</div>
+              <CardTitle className="mt-1 text-[#001a3a] text-[20px]">Buat Password Baru</CardTitle>
             </div>
-            <p className="text-sm text-red-500">{formik.errors.newPassword}</p>
-          </div>
+          </CardHeader>
 
-          <button
-            type="submit"
-            className="bg-blue-700 text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition disabled:opacity-50"
-          >
-            Submit
-          </button>
+          <Separator />
 
-          {/* Footer */}
-          <div className="mt-auto text-center text-xs text-gray-500 mb-4">
-            Butuh bantuan? Hubungi kami di{" "}
-            <a href="#" className="text-blue-600">
-              Layanan Pelanggan
-            </a>
-          </div>
-        </div>
-      </form>
+          <CardContent className="pt-6">
+            <form onSubmit={formik.handleSubmit} className="space-y-4" aria-busy={pending}>
+              <p className="text-sm text-[#001a3a]/70">
+                Masukkan password baru untuk akun kamu.
+              </p>
+
+
+              <div className="space-y-2">
+                <Label htmlFor="newPassword" className="text-[#001a3a]">Password Baru</Label>
+                <div className="relative">
+                  <Input
+                    id="newPassword"
+                    type={show ? "text" : "password"}
+                    placeholder="Masukkan password baru"
+                    {...formik.getFieldProps("newPassword")}
+                    autoComplete="new-password"
+                    disabled={pending}
+                    className={hasErr ? "border-red-400 pr-10" : "pr-10"}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShow(v => !v)}
+                    disabled={pending}
+                    className="absolute inset-y-0 right-0 px-3 grid place-items-center text-[#001a3a]/60 hover:text-[#001a3a]"
+                    aria-label={show ? "Sembunyikan password" : "Tampilkan password"}
+                  >
+                    {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {hasErr && (
+                  <p className="text-xs text-red-500" role="alert">
+                    {formik.errors.newPassword}
+                  </p>
+                )}
+                <p className="text-[11px] text-[#001a3a]/60">
+                  Gunakan kombinasi huruf, angka, dan simbol.
+                </p>
+              </div>
+
+
+              <Button
+                type="submit"
+                disabled={pending}
+                className="w-full bg-blue-700 hover:bg-blue-800 disabled:opacity-60"
+              >
+                {pending ? "Memproses..." : "Simpan Password"}
+              </Button>
+
+
+              {forgotPasswordMutation.isError && (
+                <p className="text-sm text-red-600 text-center" role="alert">
+                  Gagal menyimpan password. Coba lagi.
+                </p>
+              )}
+              {forgotPasswordMutation.isSuccess && (
+                <p className="text-sm text-green-600 text-center" role="status">
+                  Password berhasil diperbarui.{" "}
+                  <a href="/user/login" className="text-blue-700 hover:underline">Masuk sekarang</a>
+                </p>
+              )}
+            </form>
+
+            <Separator className="my-6" />
+            <p className="text-center text-xs text-[#001a3a]/60">
+              Butuh bantuan? Hubungi{" "}
+              <a href="#" className="text-blue-700 hover:underline">Layanan Pelanggan</a>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </>
   );
 }

@@ -23,18 +23,15 @@ export const YearSelect = ({
   const yearOptions = Array.from({ length: range }, (_, i) => currentYear - i);
 
   return (
-    <Select
-      value={selectedYear.toString()}
-      onValueChange={(value) => onChange(Number(value))}
-    >
-      <SelectTrigger className="w-[180px] bg-white text-[#001a3a] border border-[#cbd5e1] shadow-sm focus:ring-2 focus:ring-[#001a3a]/40 rounded-md">
+    <Select value={String(selectedYear)} onValueChange={(v) => onChange(Number(v))}>
+      <SelectTrigger className="w-[160px] bg-white text-[#001a3a] border border-blue-100 shadow-sm focus:ring-2 focus:ring-[#001a3a]/30 rounded-md">
         <SelectValue placeholder="Pilih Tahun" />
       </SelectTrigger>
-      <SelectContent className="bg-white text-[#001a3a] border border-[#cbd5e1] shadow-md rounded-md">
+      <SelectContent className="bg-white text-[#001a3a] border border-blue-100 shadow-md rounded-md">
         {yearOptions.map((year) => (
           <SelectItem
             key={year}
-            value={year.toString()}
+            value={String(year)}
             className="hover:bg-[#f0f4fa] focus:bg-[#f0f4fa] text-sm px-2 py-1.5 cursor-pointer"
           >
             {year}

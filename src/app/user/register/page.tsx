@@ -1,13 +1,26 @@
-// pages/login.tsx
+
 "use client";
+
 import Head from "next/head";
+import { useState } from "react";
 import { useFormik } from "formik";
 
 import useRegisterHook from "../_hooks/useRegister";
 import { validationUserRegisterSchema } from "@/features/user/register/schema/validationUserRegisterSchema";
 
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+
+
+import { Eye, EyeOff } from "lucide-react";
+
 export default function RegisterUserPage() {
   const { registerUserMutation } = useRegisterHook();
+  const [showPassword, setShowPassword] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -16,136 +29,153 @@ export default function RegisterUserPage() {
       referralCode: "",
     },
     validationSchema: validationUserRegisterSchema,
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       registerUserMutation.mutate(values);
     },
   });
+
+  const pending = registerUserMutation.isPending;
 
   return (
     <>
       <Head>
         <title>Daftar TICKLY</title>
       </Head>
-      <div className="min-h-screen flex flex-col px-6 pt-6">
-        {/* Header */}
-        <div className="flex justify-center items-center mb-8 text-[#001a3a]">
-          <h1 className="text-[24px] font-semibold">Daftar TICKLY</h1>
-        </div>
 
-        {/* Form */}
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-          {/* Username */}
-          <div>
-            <label className="text-sm font-medium text-[#001a3a]">
-              Username
-            </label>
-            <div className="flex items-center border-b border-gray-400 py-2">
-              <input
-                type="text"
-                name="username"
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="Masukkan Username "
-                className="flex-1 outline-none bg-transparent text-gray-600 placeholder-gray-400"
-              />
+      <div className="min-h-screen grid place-items-center bg-[#f8fafc] px-4">
+        <Card className="w-full max-w-md border-blue-100">
+          <CardHeader className="pb-2">
+            <div className="flex flex-col items-center text-center">
+              <div className="font-extrabold text-xl tracking-tight text-blue-700">TICKLY</div>
+              <CardTitle className="mt-1 text-[#001a3a] text-[20px]">Daftar TICKLY</CardTitle>
             </div>
-            {formik.touched.username && formik.errors.username && (
-              <p className="text-sm text-red-500">{formik.errors.username}</p>
-            )}
-          </div>
-          {/* Email */}
-          <div>
-            <label className="text-sm font-medium text-[#001a3a]">Email</label>
-            <div className="flex items-center border-b border-gray-400 py-2">
-              <input
-                type="text"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="Masukkan Email"
-                className="flex-1 outline-none bg-transparent text-gray-600 placeholder-gray-400"
-              />
-            </div>
-            {formik.touched.email && formik.errors.email && (
-              <p className="text-sm text-red-500">{formik.errors.email}</p>
-            )}
-          </div>
+          </CardHeader>
 
-          {/* Password */}
-          <div>
-            <label className="text-sm font-medium text-[#001a3a]">
-              Password
-            </label>
-            <div className="flex items-center border-b border-gray-400 py-2">
-              <input
-                type="password"
-                name="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="Masukkan Password"
-                className="flex-1 outline-none bg-transparent text-gray-600 placeholder-gray-400"
-              />
-            </div>
-            {formik.touched.password && formik.errors.password && (
-              <p className="text-sm text-red-500">{formik.errors.password}</p>
-            )}
-          </div>
-          
-          {/* Referral Code */}
-          <div>
-            <label className="text-sm font-medium text-[#001a3a]">
-              Referral Code
-            </label>
-            <div className="flex items-center border-b border-gray-400 py-2">
-              <input
-                type="text"
-                name="referralCode"
-                value={formik.values.referralCode}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="Masukkan Referral Code"
-                className="flex-1 outline-none bg-transparent text-gray-600 placeholder-gray-400"
-              />
-            </div>
-            {formik.touched.referralCode && formik.errors.referralCode && (
-              <p className="text-sm text-red-500">
-                {formik.errors.referralCode}
+          <Separator />
+
+          <CardContent className="pt-6">
+            <form onSubmit={formik.handleSubmit} className="space-y-4" aria-busy={pending}>
+
+              <div className="space-y-2">
+                <Label htmlFor="username" className="text-[#001a3a]">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="Masukkan Username"
+                  {...formik.getFieldProps("username")}
+                  autoComplete="username"
+                  disabled={pending}
+                  className={formik.touched.username && formik.errors.username ? "border-red-400" : ""}
+                />
+                {formik.touched.username && formik.errors.username && (
+                  <p className="text-xs text-red-500" role="alert">{formik.errors.username}</p>
+                )}
+              </div>
+
+
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-[#001a3a]">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Masukkan Email"
+                  {...formik.getFieldProps("email")}
+                  autoComplete="email"
+                  disabled={pending}
+                  className={formik.touched.email && formik.errors.email ? "border-red-400" : ""}
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <p className="text-xs text-red-500" role="alert">{formik.errors.email}</p>
+                )}
+              </div>
+
+    
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-[#001a3a]">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Masukkan Password"
+                    {...formik.getFieldProps("password")}
+                    autoComplete="new-password"
+                    disabled={pending}
+                    className={formik.touched.password && formik.errors.password ? "border-red-400 pr-10" : "pr-10"}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    disabled={pending}
+                    className="absolute inset-y-0 right-0 px-3 grid place-items-center text-[#001a3a]/60 hover:text-[#001a3a]"
+                    aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {formik.touched.password && formik.errors.password && (
+                  <p className="text-xs text-red-500" role="alert">{formik.errors.password}</p>
+                )}
+              </div>
+
+  
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="referralCode" className="text-[#001a3a]">Referral Code</Label>
+                  <span className="text-[11px] text-[#001a3a]/60">Opsional</span>
+                </div>
+                <Input
+                  id="referralCode"
+                  type="text"
+                  placeholder="Masukkan Referral Code (jika ada)"
+                  {...formik.getFieldProps("referralCode")}
+                  disabled={pending}
+                  className={formik.touched.referralCode && formik.errors.referralCode ? "border-red-400" : ""}
+                />
+                {formik.touched.referralCode && formik.errors.referralCode && (
+                  <p className="text-xs text-red-500" role="alert">{formik.errors.referralCode}</p>
+                )}
+              </div>
+
+              {/* Submit */}
+              <Button
+                type="submit"
+                disabled={pending}
+                className="w-full bg-blue-700 hover:bg-blue-800 disabled:opacity-60"
+              >
+                {pending ? "Memproses..." : "Daftar"}
+              </Button>
+
+
+              {registerUserMutation.isError && (
+                <p className="text-sm text-red-600 text-center" role="alert">
+                  Pendaftaran gagal. Coba periksa kembali data Anda.
+                </p>
+              )}
+
+  
+              <p className="text-center text-sm text-[#001a3a]/70">
+                Sudah punya akun?{" "}
+                <a href="/user/login" className="text-blue-700 font-medium hover:underline">
+                  Masuk Sekarang
+                </a>
               </p>
-            )}
-          </div>
+              <p className="text-center text-sm text-[#001a3a]/70">
+                Ingin Membuat Event?{" "}
+                <a href="/organizer/register" className="text-blue-700 font-medium hover:underline">
+                  Daftar Menjadi Organizer
+                </a>
+              </p>
+            </form>
 
-          <button
-            type="submit"
-            disabled={registerUserMutation.isPending}
-            className="bg-blue-700 text-white py-3 rounded-lg font-medium hover:bg-blue-800 transition disabled:opacity-50"
-          >
-            {registerUserMutation.isPending ? "Memproses..." : "Daftar"}
-          </button>
-
-          <div className="text-center text-sm text-gray-600 mt-4">
-            Sudah punya akun?{" "}
-            <a href="/user/login" className="text-blue-700 font-medium">
-              Masuk Sekarang
-            </a>
-          </div>
-          <div className="text-center text-sm text-gray-600 mt-4">
-            Ingin Membuat Event?{" "}
-            <a href="/organizer/register" className="text-blue-700 font-medium">
-              Daftar Menjadi Organizer Sekarang
-            </a>
-          </div>
-        </form>
-
-        {/* Footer */}
-        <div className="mt-auto text-center text-xs text-gray-500 mb-4">
-          Butuh bantuan? Hubungi kami di{" "}
-          <a href="#" className="text-blue-600">
-            Layanan Pelanggan
-          </a>
-        </div>
+            <Separator className="my-6" />
+            <p className="text-center text-xs text-[#001a3a]/60">
+              Butuh bantuan? Hubungi{" "}
+              <a href="#" className="text-blue-700 hover:underline">
+                Layanan Pelanggan
+              </a>
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

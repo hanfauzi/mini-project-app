@@ -2,9 +2,7 @@ import { axiosInstance } from "@/lib/axios";
 import { useAuthStore } from "@/stores/auth";
 import { useQuery } from "@tanstack/react-query";
 
-interface OverviewResponse {
-  [index: number]: number; // array of 12 numbers
-}
+type OverviewResponse = number[]; 
 
 const useGetOverview = (year: number) => {
   const { user } = useAuthStore();
