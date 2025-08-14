@@ -1,58 +1,140 @@
 "use client";
-import Loading from "@/components/Loading";
-import { withAuthGuard } from "@/hoc/AuthGuard";
+
+import Head from "next/head";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import Head from "next/head";
-import { Transaction } from "@/types/transaction";
-import { useGetTranscations } from "../_hooks/useGetTransactionsUser";
 dayjs.locale("id");
 
-function MyTransactionsPage() {
-  const { data: transaction, isLoading, isError } = useGetTranscations();
+import Loading from "@/components/Loading";
+import { withAuthGuard } from "@/hoc/AuthGuard";
+import { useGetTranscations } from "../_hooks/useGetTransactionsUser";
+import { Transaction } from "@/types/transaction";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { CreditCard, Ticket, CalendarClock, Tag } from "lucide-react";
+
+function statusClasses(status?: string) {
+  switch ((status ?? "").toUpperCase()) {
+    case "PAID":
+    case "SUCCESS":
+      return "bg-green-50 text-green-700 border border-green-200";
+    case "PENDING":
+      return "bg-yellow-50 text-yellow-700 border border-yellow-200";
+    case "CANCELED":
+    case "FAILED":
+      return "bg-red-50 text-red-700 border border-red-200";
+    default:
+      return "bg-slate-50 text-slate-700 border border-slate-200";
+  }
+}
+
+export default function MyTransactionsPage() {
+  const {
+    data: transactions,
+    isLoading,
+    isError,
+  } = useGetTranscations();
 
   if (isLoading) return <Loading />;
-  if (isError) return <p>Gagal mengambil Transaksi.</p>;
 
   return (
     <>
       <Head>
         <title>My Transactions | TICKLY</title>
       </Head>
-      <h1 className="container mx-auto py-6 px-8 text-[24px] font-semibold mb-6">
-        My Transactions
-      </h1>
-      <div className="container mx-auto py-6 px-8 flex flex-col gap-4">
-        {transaction.map((transaction: Transaction, index: number) => (
-          <div
-            key={transaction?.id}
-            className="w-full p-4 rounded-lg bg-[#f0f4fa] hover:bg-[#e0e7f1] transition-colors shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between cursor-pointer "
-          >
-            <div className="flex flex-col gap-2">
-              <p className="font-semibold text-xl text-[#001a3a] mb-1">
-                Transaksi #{index + 1}
+
+      <div className="w-full px-4 md:px-6">
+
+        <div className="mb-6">
+          <h1 className="text-[24px] md:text-[28px] font-semibold text-[#001a3a]">
+            My Transactions
+          </h1>
+          <p className="text-sm text-[#001a3a]/70">
+            Riwayat transaksi tiket kamu.
+          </p>
+        </div>
+
+
+        {isError && (
+          <Card className="border-red-200 bg-red-50/50">
+            <CardContent className="py-6 text-red-700">
+              Gagal mengambil Transaksi.
+            </CardContent>
+          </Card>
+        )}
+
+
+        {!isError && (!transactions || transactions.length === 0) && (
+          <Card className="border-blue-100">
+            <CardContent className="py-10 text-center">
+              <div className="mx-auto mb-3 w-10 h-10 grid place-items-center rounded-xl bg-blue-50 text-blue-700 border border-blue-100">
+                <CreditCard className="h-5 w-5" />
+              </div>
+              <p className="text-[#001a3a] font-medium">
+                Belum ada transaksi
               </p>
-              <p className="text-sm font-semibold text-gray-600">
-                {transaction.event?.title || "No Title"}
+              <p className="text-sm text-[#001a3a]/70">
+                Tiket yang kamu beli akan muncul di sini.
               </p>
-              <p className="text-sm text-gray-600">
-                {transaction.ticketCategoryId || "No Ticket Category"}
-              </p>
-              <p className="text-sm text-gray-600">
-                {transaction.status || "No Status"}
-              </p>
-              <p className="text-sm text-gray-500">
-                {dayjs(transaction.createdAt).format("DD MMMM YYYY")}
-              </p>
-            </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* List */}
+        {!isError && transactions && transactions.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {[...transactions]
+              .sort((a: Transaction, b: Transaction) =>
+                dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
+              )
+              .map((trx: Transaction, idx: number) => {
+                const title = trx.event?.title || "No Title";
+                const category =
+     
+                  (trx as any)?.ticketCategory?.name ?? trx.ticketCategoryId ?? "No Ticket Category";
+                const created = dayjs(trx.createdAt).format("DD MMMM YYYY HH:mm");
+
+                return (
+                  <Card key={trx.id ?? idx} className="border-blue-100">
+                    <CardHeader className="pb-2">
+                      <div className="flex items-start justify-between gap-3">
+                        <CardTitle className="text-[#001a3a]">
+                          Transaction #{idx + 1}
+                        </CardTitle>
+                        <Badge className={statusClasses(trx.status)}>
+                          {trx.status || "UNKNOWN"}
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <Separator />
+                    <CardContent className="pt-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center text-sm">
+                          <Ticket className="h-4 w-4 mr-2 text-blue-600" />
+                          <span className="font-medium text-[#001a3a]">{title}</span>
+                        </div>
+                        <div className="flex items-center text-sm text-[#001a3a]/80">
+                          <Tag className="h-4 w-4 mr-2 text-blue-600" />
+                          <span>{category}</span>
+                        </div>
+                        <div className="flex items-center text-sm text-[#001a3a]/80">
+                          <CalendarClock className="h-4 w-4 mr-2 text-blue-600" />
+                          <span>{created}</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
           </div>
-        ))}
+        )}
       </div>
     </>
   );
 }
 
-export default withAuthGuard(MyTransactionsPage, {
+export const WithGuard = withAuthGuard(MyTransactionsPage, {
   allowedRoles: ["USER"],
   redirectTo: "/user/login",
 });
