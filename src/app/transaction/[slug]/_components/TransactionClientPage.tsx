@@ -182,7 +182,8 @@ const TransactionClientPage = ({ event }: Props) => {
             type="number"
             value={Number(usedPoints) || 0}
             onChange={(e) => {
-              const val = parseInt(e.target.value);
+              let val = parseInt(e.target.value);
+              if (isNaN(val)) val = 0;
               setUsedPoints(Math.max(0, Math.min(val, maxUsablePoints)));
             }}
             className="w-full border border-gray-300 rounded px-3 py-2"
