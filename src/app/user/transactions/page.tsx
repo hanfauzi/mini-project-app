@@ -37,7 +37,7 @@ export default function MyTransactionsPage() {
   if (isLoading) return <Loading />;
 
   return (
-    <>
+    <div className="container mx-auto min-h-screen">
       <Head>
         <title>My Transactions | TICKLY</title>
       </Head>
@@ -168,7 +168,7 @@ export default function MyTransactionsPage() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

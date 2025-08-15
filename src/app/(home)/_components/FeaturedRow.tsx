@@ -7,12 +7,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useGetEvents from "../_hooks/useGetEvents";
 
 export default function FeaturedRow() {
-  // panggil hook yang sama, tapi tambahin param search/featured sesuai API
+
   const { data, isPending, isError } = useGetEvents({
     page: 1,
-    search: undefined,
-    // kalau API ada param featured, tambahin di sini
-    // category: "featured" atau search: "featured" terserah backend
+    
+   
   });
 
   if (isError) {
