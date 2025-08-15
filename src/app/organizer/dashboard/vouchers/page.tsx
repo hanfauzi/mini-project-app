@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
-export default function OrganizerVoucherPage() {
+ function OrganizerVoucherPage() {
   const { data, isLoading, isError } = useOrganizerVouchers();
   const router = useRouter();
 
@@ -95,3 +96,8 @@ export default function OrganizerVoucherPage() {
     </div>
   );
 }
+
+export default withAuthGuard(OrganizerVoucherPage, {
+  allowedRoles: ["ORGANIZER"],
+  redirectTo: "/organizer/login",
+});

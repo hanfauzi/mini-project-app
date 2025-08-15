@@ -9,8 +9,10 @@ import { useParams, useRouter } from "next/navigation";
 import { useCreateVoucher } from "../../_hooks/useCreateVoucher";
 import { toast } from "sonner";
 import { useGetMyEvents } from "../../_hooks/useGetEventsByOrganizerId";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
-export default function CreateVoucherPage() {
+
+ function CreateVoucherPage() {
   const router = useRouter();
   const { organizerId } = useParams() as { organizerId: string };
 
@@ -119,3 +121,6 @@ export default function CreateVoucherPage() {
     </div>
   );
 }
+
+export default withAuthGuard(CreateVoucherPage, {
+  allowedRoles: ["ORGANIZER"], redirectTo: "/organizer/login",});

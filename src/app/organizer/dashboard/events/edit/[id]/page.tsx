@@ -25,8 +25,9 @@ import { Textarea } from "@/components/ui/textarea";
 
 
 import { CalendarDays, Clock, Pencil, Save, Trash2, Upload, X } from "lucide-react";
+import { withAuthGuard } from "@/hoc/AuthGuard";
 
-export default function EditEventPage() {
+ function EditEventPage() {
   const params = useParams();
   const eventId = params.id as string;
 
@@ -408,3 +409,8 @@ export default function EditEventPage() {
     </>
   );
 }
+
+export default withAuthGuard(EditEventPage, {
+  allowedRoles: ["ORGANIZER"],
+  redirectTo: "/organizer/login",
+});
