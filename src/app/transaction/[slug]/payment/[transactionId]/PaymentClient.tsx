@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useTransaction } from "../../../_hooks/useGetTransaction";
 import { uploadPaymentProof } from "../../../_hooks/useUploadPaymentProof";
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export default function PaymentClient({ transactionId }: Props) {
+  const router = useRouter();
   const { transaction, loading, error } = useTransaction(transactionId);
   const [timeLeft, setTimeLeft] = useState<number>(0); // in seconds
   const [file, setFile] = useState<File | null>(null);
@@ -36,6 +38,7 @@ export default function PaymentClient({ transactionId }: Props) {
         image: file,
       });
       toast.success("Bukti pembayaran berhasil diupload!");
+      router.push(`/user/trasactions`)
     } catch (err: any) {
       toast.error("Gagal upload bukti pembayaran.");
     } finally {
