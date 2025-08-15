@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoAlarm } from "react-icons/io5";
@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { axiosInstance } from "@/lib/axios";
 import { Event } from "@/types/event";
 import useCreateTransaction from "../../_hooks/useCreateTransaction";
+import useGetCurrentPoints from "../../_hooks/useGetCurrentPoints";
 
 type Props = {
   event: Event;
@@ -22,6 +23,7 @@ const TransactionClientPage = ({ event }: Props) => {
   const [voucherCode, setVoucherCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
   const [usedPoints, setUsedPoints] = useState(0);
+  const { data: currentPoints } = useGetCurrentPoints();
 
   const { createTransactionMutation } = useCreateTransaction();
   const { mutate: createTransaction, isPending } = createTransactionMutation;
@@ -77,6 +79,7 @@ const TransactionClientPage = ({ event }: Props) => {
     ? selectedTicket.price * quantity * 0.05
     : 0;
   const totalPrice = Math.max(originalPrice - discountAmount - usedPoints, 0);
+
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -194,6 +197,11 @@ const TransactionClientPage = ({ event }: Props) => {
           <p className="text-gray-500 text-sm">
             Maksimal point yang bisa digunakan: {maxUsablePoints}
           </p>
+          {currentPoints !== null && (
+            <p className="text-blue-500 text-sm">
+              Poin Anda saat ini: {currentPoints}
+            </p>
+          )}
         </div>
 
         {/* Total Price */}
