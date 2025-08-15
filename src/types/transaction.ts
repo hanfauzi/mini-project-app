@@ -1,3 +1,5 @@
+import { Event } from "./event";
+
 export type CreateTransactionPayload = {
   eventId: string;
   ticketCategoryId: string;
@@ -9,7 +11,7 @@ export type CreateTransactionPayload = {
 
 export interface Transaction {
   id: string;
-  event: {title: string} | null; // Assuming event has a title field
+  event: Event | null; 
   eventId: string;
   userId: string;
   ticketCategoryId: string;
@@ -21,4 +23,8 @@ export interface Transaction {
   totalPrice: number;
   status: "WAITING_PAYMENT" | "WAITING_CONFIRMATION" | "DONE" | "REJECTED" | "CANCELED";
   createdAt: string;
+   tickets?: {
+    id: string;
+    // bisa ditambah info lain kalau perlu
+  }[];
 }

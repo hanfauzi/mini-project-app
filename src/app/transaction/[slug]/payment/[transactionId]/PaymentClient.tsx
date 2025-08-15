@@ -38,7 +38,7 @@ export default function PaymentClient({ transactionId }: Props) {
         image: file,
       });
       toast.success("Bukti pembayaran berhasil diupload!");
-      router.push(`/user/trasactions`)
+      router.push(`/user/transactions`)
     } catch (err: any) {
       toast.error("Gagal upload bukti pembayaran.");
     } finally {
