@@ -1,12 +1,10 @@
-import React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { Suspense } from "react";
 
-import EventList from "./_components/EventList";
-import HomeHero from "./_components/HomeHero";
-import FeaturedRow from "./_components/FeaturedRow";
 import CategoryPills from "./_components/CategoryPills";
+import EventList from "./_components/EventList";
+import FeaturedRow from "./_components/FeaturedRow";
 import PromoStrip from "./_components/PromoStrip";
 
 export default function Page() {
@@ -34,7 +32,9 @@ export default function Page() {
         </div>
 
         {/* EventList sudah handle search + pagination */}
-        <EventList />
+        <Suspense fallback={<p>Loading events...</p>}>
+          <EventList />
+        </Suspense>
       </section>
 
       {/* FEATURED */}
@@ -51,15 +51,7 @@ export default function Page() {
           </Link>
         </div>
         <FeaturedRow />
-      </section>
-
-      {/* CATEGORIES */}
-      <section className="container mx-auto px-4 mt-10">
-        <h2 className="text-lg sm:text-xl font-semibold text-[#001a3a] mb-3">
-          Kategori Event
-        </h2>
-        <CategoryPills />
-      </section>
+      </section>     
 
       <Separator className="container mx-auto mt-8" />
 
