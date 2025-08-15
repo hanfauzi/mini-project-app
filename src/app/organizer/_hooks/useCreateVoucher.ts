@@ -28,8 +28,6 @@ export const useCreateVoucher = () => {
           },
         }
       );
-      console.log("Create Voucher Response:", res.data);
-      console.log("token:", user?.token);
       return res.data;
     },
   });

@@ -8,12 +8,15 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useCreateVoucher } from "../../_hooks/useCreateVoucher";
 import { toast } from "sonner";
+import { useGetMyEvents } from "../../_hooks/useGetEventsByOrganizerId";
 
 export default function CreateVoucherPage() {
   const router = useRouter();
   const { organizerId } = useParams() as { organizerId: string };
 
   const mutation = useCreateVoucher();
+
+  const { data: events, isLoading: loadingEvents } = useGetMyEvents();
 
   const [form, setForm] = useState({
     code: "",
@@ -41,7 +44,7 @@ export default function CreateVoucherPage() {
         payload: form,
       });
       toast.success("Voucher created!");
-      router.push("/dashboard/promotions"); 
+      router.push("/organizer/dashboard/vouchers"); 
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
@@ -88,9 +91,26 @@ export default function CreateVoucherPage() {
         <Input name="endDate" type="datetime-local" onChange={handleChange} />
       </div>
 
+      {/* Event Dropdown */}
       <div className="space-y-2">
-        <Label>Event ID</Label>
-        <Input name="eventId" value={form.eventId} onChange={handleChange} />
+        <Label>Event</Label>
+        {loadingEvents ? (
+          <p>Loading events...</p>
+        ) : (
+          <select
+            name="eventId"
+            value={form.eventId}
+            onChange={handleChange}
+            className="w-full border rounded px-2 py-1"
+          >
+            <option value="">-- Select Event --</option>
+            {events?.map((event: any) => (
+              <option key={event.id} value={event.id}>
+                {event.title} ({new Date(event.startDay).toLocaleDateString()})
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       <Button onClick={handleSubmit} disabled={mutation.isPending}>
