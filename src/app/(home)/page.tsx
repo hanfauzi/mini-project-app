@@ -1,14 +1,69 @@
-import React from 'react'
-import EventList from './_components/EventList'
+import React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
-const Page = () => {
-   
+import EventList from "./_components/EventList";
+import HomeHero from "./_components/HomeHero";
+import FeaturedRow from "./_components/FeaturedRow";
+import CategoryPills from "./_components/CategoryPills";
+import PromoStrip from "./_components/PromoStrip";
+
+export default function Page() {
   return (
-    <div className='container mx-auto px-4 min-h-screen py-4'>
-      <h1 className='text'>Let's start your happiest journey</h1>
-      <EventList />
-    </div>
-  )
-}
+    <div className="min-h-screen">
+      {/* NAV-like top strip (optional) */}
 
-export default Page
+
+      {/* HERO + quick actions */}
+      <HomeHero />
+
+      {/* PROMO STRIP */}
+      <PromoStrip />
+
+      {/* FEATURED */}
+      <section className="container mx-auto px-4 mt-8">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg sm:text-xl font-semibold text-[#001a3a]">
+            Featured Events
+          </h2>
+          <Link
+            href="/events?sort=featured"
+            className="text-sm text-blue-700 hover:underline"
+          >
+            Lihat semua →
+          </Link>
+        </div>
+        <FeaturedRow />
+      </section>
+
+      {/* CATEGORIES */}
+      <section className="container mx-auto px-4 mt-10">
+        <h2 className="text-lg sm:text-xl font-semibold text-[#001a3a] mb-3">
+          Kategori Event
+        </h2>
+        <CategoryPills />
+      </section>
+
+      <Separator className="container mx-auto mt-8" />
+
+      {/* LIST (pakai komponen kamu) */}
+      <section className="container mx-auto px-4 mt-8 pb-14">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-[#001a3a]">
+            Temukan Event Terbaik
+          </h2>
+          <Link
+            href="/events?sort=popular"
+            className="text-sm text-blue-700 hover:underline"
+          >
+            Populer minggu ini →
+          </Link>
+        </div>
+
+        {/* EventList sudah handle search + pagination */}
+        <EventList />
+      </section>
+    </div>
+  );
+}
