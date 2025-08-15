@@ -220,5 +220,5 @@ function OrganizerTransactionsPage() {
 
 export default withAuthGuard(OrganizerTransactionsPage, {
   allowedRoles: ["ORGANIZER"],
-  redirectTo: "/",
+  redirectTo: "/organizer/login",
 });

@@ -471,5 +471,5 @@ function OrganizerProfilePage() {
 }
 
 export default withAuthGuard(OrganizerProfilePage, {
-  allowedRoles: ["ORGANIZER"],
+  allowedRoles: ["ORGANIZER"], redirectTo: "/organizer/login",
 });

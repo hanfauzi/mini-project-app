@@ -149,5 +149,5 @@ function DashboardPage() {
 
 export default withAuthGuard(DashboardPage, {
   allowedRoles: ["ORGANIZER"],
-  redirectTo: "/",
+  redirectTo: "/organizer/login",
 });
