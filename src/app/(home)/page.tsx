@@ -1,12 +1,10 @@
-import React, { Suspense } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { Suspense } from "react";
 
-import EventList from "./_components/EventList";
-import HomeHero from "./_components/HomeHero";
-import FeaturedRow from "./_components/FeaturedRow";
 import CategoryPills from "./_components/CategoryPills";
+import EventList from "./_components/EventList";
+import FeaturedRow from "./_components/FeaturedRow";
 import PromoStrip from "./_components/PromoStrip";
 
 export default function Page() {

@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useDebounceValue } from "usehooks-ts";
-import { useSearchParams } from "next/navigation";
 import PaginationSection from "@/components/PaginationSection";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { useDebounceValue } from "usehooks-ts";
 import useGetEvents from "../_hooks/useGetEvents";
 import EventCard from "./EventCard";
 
@@ -13,7 +12,6 @@ const EventList = () => {
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounceValue(search, 500);
 
-  const params = useSearchParams();
 
 
   const { data: events, isPending } = useGetEvents({
