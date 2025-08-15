@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
-
+import { useSearchParams } from "next/navigation";
 import PaginationSection from "@/components/PaginationSection";
 import { Input } from "@/components/ui/input";
 import useGetEvents from "../_hooks/useGetEvents";
@@ -11,23 +11,26 @@ import EventCard from "./EventCard";
 const EventList = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-
   const [debouncedSearch] = useDebounceValue(search, 500);
+
+  const params = useSearchParams();
+
 
   const { data: events, isPending } = useGetEvents({
     search: debouncedSearch,
     page,
+
   });
 
-  
   return (
     <>
-      <Input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Cari event serumu disini..."
-        className="max-w-md mx-auto mb-6"
-      />
+      <div className="max-w-xl mx-auto mb-6">
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Cari event serumu disini..."
+        />
+      </div>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {isPending && <p>Loading...</p>}
