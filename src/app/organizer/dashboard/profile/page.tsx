@@ -202,10 +202,6 @@ function OrganizerProfilePage() {
 
                   {isEditing && (
                     <div className="flex gap-2">
-                      <Button type="button" variant="outline" onClick={handlePickFile}>
-                        <Upload className="mr-2 h-4 w-4" />
-                        Upload
-                      </Button>
                       <Button
                         type="button"
                         variant="secondary"
