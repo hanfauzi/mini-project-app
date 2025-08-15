@@ -23,8 +23,7 @@ const useRegisterHook = () => {
       return data;
     },
     onSuccess: () => {
-      toast.success("Register Organizer success!");
-      router.replace("/");
+      toast.success("Register Organizer success! Login link will sent to your email!");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error.response?.data.message ?? "Something went wrong!");
