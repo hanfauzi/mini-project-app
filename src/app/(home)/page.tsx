@@ -15,11 +15,27 @@ export default function Page() {
       {/* NAV-like top strip (optional) */}
 
 
-      {/* HERO + quick actions */}
-      <HomeHero />
 
       {/* PROMO STRIP */}
       <PromoStrip />
+
+        {/* LIST (pakai komponen kamu) */}
+      <section className="container mx-auto px-4 mt-8 pb-14">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-[#001a3a]">
+            Temukan Event Terbaik
+          </h2>
+          <Link
+            href="/event"
+            className="text-sm text-blue-700 hover:underline"
+          >
+            Populer minggu ini →
+          </Link>
+        </div>
+
+        {/* EventList sudah handle search + pagination */}
+        <EventList />
+      </section>
 
       {/* FEATURED */}
       <section className="container mx-auto px-4 mt-8">
@@ -28,7 +44,7 @@ export default function Page() {
             Featured Events
           </h2>
           <Link
-            href="/events?sort=featured"
+            href="/event"
             className="text-sm text-blue-700 hover:underline"
           >
             Lihat semua →
@@ -47,23 +63,7 @@ export default function Page() {
 
       <Separator className="container mx-auto mt-8" />
 
-      {/* LIST (pakai komponen kamu) */}
-      <section className="container mx-auto px-4 mt-8 pb-14">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg sm:text-xl font-semibold text-[#001a3a]">
-            Temukan Event Terbaik
-          </h2>
-          <Link
-            href="/events?sort=popular"
-            className="text-sm text-blue-700 hover:underline"
-          >
-            Populer minggu ini →
-          </Link>
-        </div>
-
-        {/* EventList sudah handle search + pagination */}
-        <EventList />
-      </section>
+    
     </div>
   );
 }
