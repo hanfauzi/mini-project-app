@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -34,7 +34,9 @@ export default function Page() {
         </div>
 
         {/* EventList sudah handle search + pagination */}
-        <EventList />
+        <Suspense fallback={<p>Loading events...</p>}>
+          <EventList />
+        </Suspense>
       </section>
 
       {/* FEATURED */}
