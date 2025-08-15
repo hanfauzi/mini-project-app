@@ -51,15 +51,7 @@ export default function Page() {
           </Link>
         </div>
         <FeaturedRow />
-      </section>
-
-      {/* CATEGORIES */}
-      <section className="container mx-auto px-4 mt-10">
-        <h2 className="text-lg sm:text-xl font-semibold text-[#001a3a] mb-3">
-          Kategori Event
-        </h2>
-        <CategoryPills />
-      </section>
+      </section>     
 
       <Separator className="container mx-auto mt-8" />
 
