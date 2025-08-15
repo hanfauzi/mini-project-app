@@ -113,5 +113,5 @@ function AttendeesPage() {
 
 export default withAuthGuard(AttendeesPage, {
   allowedRoles: ["ORGANIZER"],
-  redirectTo: "/",
+  redirectTo: "/organizer/login",
 });
