@@ -127,7 +127,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <p className="text-2xl font-extrabold text-blue-700">
                 {displayPrice}
               </p>
-              <Button asChild className="shadow-sm">
+              <Button asChild className="bg-blue-300 text-white hover:bg-blue-500 hover:text-white">
                 <Link href={`#tickets`}>Lihat Tiket</Link>
               </Button>
             </CardContent>
@@ -212,7 +212,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
                           <Button
                             disabled={isSoldOut}
-                            className="mt-2 w-full"
+                            className="mt-2 w-full bg-blue-300 text-white hover:bg-blue-500 hover:text-white"
                             asChild
                           >
                             <Link href={`/transaction/${event.slug}`}>
